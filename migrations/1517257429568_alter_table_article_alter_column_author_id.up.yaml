@@ -1,0 +1,9 @@
+- args:
+    sql: ALTER TABLE "article" ALTER COLUMN "author_id" TYPE integer;
+  type: run_sql
+- args:
+    sql: ALTER TABLE "article" ALTER COLUMN "author_id" DROP DEFAULT;
+  type: run_sql
+- args:
+    sql: ALTER TABLE "article" ALTER COLUMN "author_id" SET NOT NULL;
+  type: run_sql

@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.mainPublic .container {
+  padding-top: 85px;
+}
+
+.main {
+  padding-top: 30px;
+  margin: 0 auto;
+  max-width: 1100px;
+}
+
+.app-header.navbar {
+  max-width: 1070px;
+  margin: auto;
+  width: 100%;
+  background: none;
+  border-bottom: none;
+}
+
+.app-header-contain {
+  width: 100%;
+  height: 56px;
+  background: #fff;
+  border-bottom: 1px solid #c2cfd6;
+  position: fixed;
+  z-index: 1;
+}
+
+.app-header-contain .navbar-brand {
+  position: absolute;
+  left: 50%;
+  margin-left: -77.5px;
+}
+
+.dropdown.nav-item {
+  padding-top: 1px;
+}
+
+.dropdown-item .nav-item .nav-link {
+  text-align: left;
+}
+
+.nav-link i {
+  margin-right: 2px;
+}
+
+.nav-menu {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.nav-menu .nav-item {
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.add-bottom-space {
+  margin-bottom: 15px;
+}

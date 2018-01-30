@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Normal from "./layout/Normal";
+import Public from "./layout/Public";
+import { Router, Route, Redirect } from "react-router-dom";
+import { Provider } from 'react-redux';
+import { store, configureFakeBackend, history } from './helpers';
+
+configureFakeBackend();
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Provider store={store}>
+        <Router history={history}>
+          <div>
+            <Route exact path="/" name="Index" render={() => (<Redirect to={"/public/login"} />)} />
+            <Route path={"/public"} name="Public" component={Public} />
+            <Route path={"/user"} name="User" component={Normal} />
+          </div>
+        </Router>
+      </Provider>
     );
   }
 }

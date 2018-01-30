@@ -1,0 +1,7 @@
+- args:
+    sql: CREATE TABLE "event_coordinator"("ecid" integer NOT NULL, "pid" integer NOT
+      NULL, "main" boolean NOT NULL, PRIMARY KEY ("ecid") )
+  type: run_sql
+- args:
+    name: event_coordinator
+  type: add_existing_table_or_view

@@ -1,0 +1,7 @@
+- args:
+    sql: CREATE TABLE "participants"("ptid" integer NOT NULL, "pid" integer NOT NULL,
+      "eid" integer NOT NULL, "confirmed" integer NOT NULL, PRIMARY KEY ("ptid") )
+  type: run_sql
+- args:
+    name: participants
+  type: add_existing_table_or_view

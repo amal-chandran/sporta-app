@@ -1,0 +1,7 @@
+- args:
+    sql: CREATE TABLE "request"("rid" integer NOT NULL, "type" text NOT NULL, "content"
+      text NOT NULL, "completed" boolean NOT NULL, PRIMARY KEY ("rid") )
+  type: run_sql
+- args:
+    name: request
+  type: add_existing_table_or_view

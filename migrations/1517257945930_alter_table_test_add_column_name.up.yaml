@@ -1,0 +1,3 @@
+- args:
+    sql: ALTER TABLE "test" ADD COLUMN "name" text NUll DEFAULT 'event test '
+  type: run_sql

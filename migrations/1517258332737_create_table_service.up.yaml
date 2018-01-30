@@ -1,0 +1,7 @@
+- args:
+    sql: CREATE TABLE "service"("sid" integer NOT NULL, "name" text NOT NULL, "discription"
+      text NOT NULL, "photo" text NOT NULL, PRIMARY KEY ("sid") )
+  type: run_sql
+- args:
+    name: service
+  type: add_existing_table_or_view

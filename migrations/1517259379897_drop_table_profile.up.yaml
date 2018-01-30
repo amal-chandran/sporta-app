@@ -1,0 +1,3 @@
+- args:
+    sql: DROP TABLE "profile"
+  type: run_sql

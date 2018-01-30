@@ -1,0 +1,8 @@
+- args:
+    sql: CREATE TABLE "test_score"("tsid" integer NOT NULL, "eid" integer NOT NULL,
+      "ptid" integer NOT NULL, "score" text NOT NULL, "main" boolean NOT NULL, PRIMARY
+      KEY ("tsid") )
+  type: run_sql
+- args:
+    name: test_score
+  type: add_existing_table_or_view

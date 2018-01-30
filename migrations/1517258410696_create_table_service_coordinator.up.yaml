@@ -1,0 +1,7 @@
+- args:
+    sql: CREATE TABLE "service_coordinator"("scid" integer NOT NULL, "pid" integer
+      NOT NULL, "main" boolean NOT NULL, PRIMARY KEY ("scid") )
+  type: run_sql
+- args:
+    name: service_coordinator
+  type: add_existing_table_or_view

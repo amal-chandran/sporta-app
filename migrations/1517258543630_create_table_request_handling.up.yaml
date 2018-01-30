@@ -1,0 +1,7 @@
+- args:
+    sql: CREATE TABLE "request_handling"("rhid" integer NOT NULL, "pid" integer NOT
+      NULL, "rid" integer NOT NULL, PRIMARY KEY ("rhid") )
+  type: run_sql
+- args:
+    name: request_handling
+  type: add_existing_table_or_view
