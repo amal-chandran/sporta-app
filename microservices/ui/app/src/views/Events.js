@@ -1,6 +1,14 @@
 import React from "react";
-import { Col, Row, Card, CardBody, CardImg, CardTitle, CardText, Button, CardSubtitle } from "reactstrap";
+import {
+    Col, Row, Card, CardBody, CardImg,
+    CardTitle, CardText, Button, CardSubtitle,
+    Nav, NavLink, NavItem, Form, FormGroup, Input, Label
+} from "reactstrap";
+
 import { history } from './../helpers';
+
+import SubNav from "../components/SubNav";
+import ResponsiveMenuDialog from "../components/ResponsiveMenuDialog";
 
 let RandomData = [
     {
@@ -36,8 +44,51 @@ let RandomData = [
 
 ];
 
+let NavControll = () => {
+    return (
+        <SubNav Name="Event">
+            <Nav className="ml-auto" navbar>
+                <NavItem>
+                    <CreateEvent />
+                </NavItem>
+            </Nav>
+        </SubNav>
+    );
+}
+
+let CreateEvent = () => (
+    <ResponsiveMenuDialog Name="Create Event" Title="Create Event">
+        <CreateEventForm />
+    </ResponsiveMenuDialog>
+);
+
+let CreateEventForm = () => (
+    <div>
+        <Form >
+            <FormGroup>
+                <Label for="EventName">Name</Label>
+                <Input type="email" name="EventName" id="EventName" placeholder="Event Name" />
+            </FormGroup>
+            <FormGroup>
+                <Label for="EventDiscription">Discription</Label>
+                <Input type="textarea" name="EventDiscription" id="EventDiscription" placeholder="Event Discription" />
+            </FormGroup>
+            <FormGroup>
+                <Label for="EventPhoto">Photo</Label>
+                <Input type="email" name="EventPhoto" id="EventPhoto" placeholder="Event Photo" />
+            </FormGroup>
+            <div className="clearfix">
+                <Button className="float-right">Create</Button>
+            </div>
+        </Form>
+    </div>
+);
+
 export default () => (
     <Row>
+        <Col xs={12} sm={12}>
+            <NavControll> </NavControll>
+        </Col>
         {RandomData.map((cardData, key) => (
             <Col key={key} xs={12} sm={4}>
                 <Card>

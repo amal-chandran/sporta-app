@@ -4,7 +4,7 @@ import { Container, Table, Badge, Card, Row, Col, CardBody, CardHeader } from 'r
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import Events from "./../views/Events";
-import Sporta from "./../views/Sporta";
+// import Sporta from "./../views/Sporta";
 import Users from "./../views/Users";
 import EventManager from "./../views/EventManager";
 import Scoreboard from "./../views/Scoreboard";
@@ -30,7 +30,7 @@ export default class Normal extends Component {
                                     <Route path={match.url + "/scoreboard"} name="Scoreboard" component={Scoreboard} />
                                     <Route path={match.url + "/eventmanager/:id"} name="EventManager" component={EventManager} />
                                     <Route path={match.url + "/users"} name="Users" component={Users} />
-                                    <Route path={match.url + "/sporta"} name="Sporta" component={Sporta} />
+                                    {/* <Route path={match.url + "/sporta"} name="Sporta" component={Sporta} /> */}
                                     <Route path={match.url + "/events"} name="Events" component={Events} />
                                 </Switch>
                             </div>

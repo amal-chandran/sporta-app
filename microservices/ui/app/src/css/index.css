@@ -64,3 +64,13 @@ body {
 .add-bottom-space {
   margin-bottom: 15px;
 }
+
+.bold-head {
+  font-weight: bold;
+}
+
+.scrollList {
+  max-height: 270px;
+  overflow: scroll;
+  z-index: 0;
+}

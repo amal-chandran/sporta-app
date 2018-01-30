@@ -6,6 +6,9 @@ import {
 
 import imagesLoaded from "imagesloaded";
 import Slideshow from "./../lib/scoreboard";
+import "./../css/normalize.css";
+import "./../css/revealer.css";
+import "./../css/scoreboard.css";
 
 export default class Scoreboard extends Component {
     constructor(props) {

@@ -8,13 +8,9 @@ import registerServiceWorker from './registerServiceWorker';
 // import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/css/simple-line-icons.css';
-import "./css/normalize.css";
-import "./css/revealer.css";
-import "./css/scoreboard.css";
 
 import './css/style.css';
 import './css/index.css';
-
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

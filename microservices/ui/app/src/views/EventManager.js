@@ -3,24 +3,25 @@ import {
     Col, Row, Card, CardBody, CardHeader, CardTitle,
     CardText, Button, Table, Badge, Form, FormGroup,
     Label, Input, FormText, Nav, NavItem, NavLink,
-    NavbarBrand, Navbar, NavbarToggler, Collapse, ButtonGroup,
-    InputGroup, InputGroupAddon
+    ButtonGroup, InputGroup, InputGroupAddon
 } from "reactstrap";
 
 import {
     Chip, Avatar, IconButton, Dialog, DialogTitle,
     DialogContent, DialogActions, DialogContentText,
-    Paper, Typography, withStyles, withMobileDialog
+    Paper, Typography, withStyles, withMobileDialog,
+    Checkbox, ListItemAvatar, Grid
 } from "material-ui";
 
 import Stepper, { Step, StepLabel, StepContent } from 'material-ui/Stepper';
+import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 
 import UserImage from "../img/6.jpg";
+import SubNav from "../components/SubNav";
+import ResponsiveMenuDialog from "../components/ResponsiveMenuDialog";
+import CheckboxList from "../components/CheckboxList";
 
 import { Edit, Delete } from 'material-ui-icons';
-
-// import 'react-select-plus/dist/react-select-plus.css';
-// import Select from 'react-select-plus';
 
 export default (props) => (
     <div className="animated fadeIn">
@@ -36,40 +37,22 @@ export default (props) => (
     </div>
 );
 
-class NavControll extends Component {
-    constructor(props) {
-        super(props);
-
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-            isOpen: false
-        };
-    }
-    toggle() {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-    }
-    render() {
-        return (
-            <div>
-                <Navbar color="faded" light expand="md" className="nav-menu add-bottom-space">
-                    <NavbarBrand>Event Manager</NavbarBrand>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse isOpen={this.state.isOpen} navbar>
-                        <Nav className="ml-auto" navbar>
-                            <NavItem>
-                                <CreateTest />
-                            </NavItem>
-                            <NavItem>
-                                <NavLink className="text-primary" href="#">Finalize Event</NavLink>
-                            </NavItem>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
-            </div>
-        );
-    }
+let NavControll = () => {
+    return (
+        <SubNav Name="Event Manager">
+            <Nav className="ml-auto" navbar>
+                <NavItem>
+                    <CreateTest />
+                </NavItem>
+                <NavItem>
+                    <NavLink className="text-primary" href="#">Finalize Event</NavLink>
+                </NavItem>
+                <NavItem>
+                    <ManageCoordinator />
+                </NavItem>
+            </Nav>
+        </SubNav>
+    );
 }
 
 class TestCards extends Component {
@@ -99,8 +82,8 @@ class TestCards extends Component {
             <div>
                 <Row>
                     {this.data.map((cardData, key) => (
-                        <Col xs={12} lg={4}>
-                            <Card key={key}>
+                        <Col key={key} xs={12} lg={4}>
+                            <Card >
                                 <CardBody>
                                     <CardTitle>
                                         {cardData.Name}
@@ -117,14 +100,7 @@ class TestCards extends Component {
                                             {cardData.Users.map((UserData, keyUsers) => (
                                                 <tr key={keyUsers}>
                                                     <th scope="row">{keyUsers + 1}</th>
-                                                    <td>
-                                                        {/* <Avatar height="10px" alt="Remy Sharp" src={UserImage} /> */}
-                                                        {UserData}
-                                                        {/* <Chip key={keyUsers}
-                                                        avatar={<Avatar src={UserImage} />}
-                                                        label={UserData}
-                                                    /> */}
-                                                    </td>
+                                                    <td> {UserData}</td>
                                                     <td>10</td>
                                                 </tr>
                                             ))}
@@ -150,44 +126,39 @@ class TestCards extends Component {
     }
 }
 
-class ResponsiveDialog extends React.Component {
-    state = {
-        open: true,
-    };
+let CreateTest = () => (
+    <ResponsiveMenuDialog Name="Create Test" Title="Create Test">
+        <VerticalStepper />
+    </ResponsiveMenuDialog>
+);
 
-    handleClickOpen = () => {
-        this.setState({ open: true });
-    };
+let ManageCoordinator = () => (
+    <ResponsiveMenuDialog Name="Manage Coordinator" Title="Manage Coordinator">
+        <ManageCoordinatorForm />
+    </ResponsiveMenuDialog>
+);
 
-    handleClose = () => {
-        this.setState({ open: false });
-    };
-
-
-    render() {
-        const { fullScreen } = this.props;
-
-        return (
-            <div>
-                <NavLink onClick={this.handleClickOpen} className="text-primary" href="#">Create Test</NavLink>
-
-                <Dialog
-                    fullScreen={fullScreen}
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                    aria-labelledby="responsive-dialog-title"
-                >
-                    <DialogTitle id="responsive-dialog-title">{"Create Test"}</DialogTitle>
-                    <DialogContent>
-                        <VerticalStepper />
-                    </DialogContent>
-                </Dialog>
-            </div>
-        );
-    }
-}
-
-let CreateTest = withMobileDialog()(ResponsiveDialog);
+let ManageCoordinatorForm = () => (
+    <div>
+        <CheckboxList
+            head={"Select Coordinator"}
+            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]}
+        />
+        <FormGroup>
+            <Label for="exampleSelect">Main Coordinator</Label>
+            <Input type="select" name="select" id="exampleSelect">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </Input>
+        </FormGroup>
+        <div className="clearfix">
+            <Button className="float-right">Save List</Button>
+        </div>
+    </div>
+);
 
 function getSteps() {
     return ['Test Details', 'Add Points', 'Review'];
@@ -198,12 +169,9 @@ function getStepContent(step) {
         case 0:
             return (<StepOne />);
         case 1:
-            return 'An ad group contains one or more ads which target a shared set of keywords.';
+            return (<StepTwo />);
         case 2:
-            return `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`;
+            return (<StepThree />);
         default:
             return 'Unknown step';
     }
@@ -213,6 +181,7 @@ const styles = theme => ({
     root: {
         width: '90%',
     },
+    steproot: { padding: 0 },
     button: {
         marginRight: theme.spacing.unit,
     },
@@ -228,7 +197,7 @@ const styles = theme => ({
 
 class VerticalLinearStepper extends React.Component {
     state = {
-        activeStep: 0,
+        activeStep: 1,
     };
 
     handleNext = () => {
@@ -256,13 +225,16 @@ class VerticalLinearStepper extends React.Component {
 
         return (
             <div className={classes.root}>
-                <Stepper activeStep={activeStep} orientation="vertical">
+
+                <Stepper classes={{ root: classes.steproot }} activeStep={activeStep} orientation="vertical">
                     {steps.map((label, index) => {
                         return (
                             <Step key={label}>
                                 <StepLabel>{label}</StepLabel>
                                 <StepContent>
-                                    <Typography>{getStepContent(index)}</Typography>
+
+                                    {getStepContent(index)}
+
                                     <div className={classes.actionsContainer}>
                                         <div>
                                             <Button
@@ -294,6 +266,7 @@ class VerticalLinearStepper extends React.Component {
             </Button>
                     </Paper>
                 )}
+
             </div>
         );
     }
@@ -302,49 +275,73 @@ class VerticalLinearStepper extends React.Component {
 let VerticalStepper = withStyles(styles)(VerticalLinearStepper);
 
 class StepOne extends React.Component {
+    render() {
+        return (
+            <div>
+                <InputGroup>
+                    <Input placeholder="Test Name" />
+                </InputGroup>
+                <br />
+                <CheckboxList
+                    head={"Select Particepents"}
+                    data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]}
+                />
+            </div>
+        );
+    }
+}
 
-    handleSelectChange(value) {
-        console.log('You\'ve selected:', value);
-        this.setState({ value });
-    }
-    getInitialState() {
-        return {
-            removeSelected: true,
-            disabled: false,
-            crazy: false,
-            stayOpen: false,
-            value: [],
-            rtl: false,
-        };
-    }
+
+
+class StepTwo extends React.Component {
 
     render() {
-        // const { value } = this.state
-        const FLAVOURS = [
-            { label: 'Chocolate', value: 'chocolate' },
-            { label: 'Vanilla', value: 'vanilla' },
-            { label: 'Strawberry', value: 'strawberry' },
-            { label: 'Caramel', value: 'caramel' },
-            { label: 'Cookies and Cream', value: 'cookiescream' },
-            { label: 'Peppermint', value: 'peppermint' },
-        ];
         return (
-            <InputGroup>
-                {/* <InputGroupAddon addonType="prepend">@</InputGroupAddon> */}
-                <Input placeholder="Test Name" />
-                {/* <Select
-                    closeOnSelect={false}
-                    // disabled={disabled}
-                    multi
-                    // onChange={this.handleSelectChange}
-                    options={FLAVOURS}
-                    placeholder="Select your favourite(s)"
-                    // removeSelected={this.state.removeSelected}
-                    // rtl={this.state.rtl}
-                    simpleValue
-                    value={value}
-                /> */}
-            </InputGroup>
+            <div>
+                <p className="bold-head">Points of Participents</p>
+                {/* <br /> */}
+                <div className="scrollList">
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map((value, key) => (
+                        <FormGroup key={key}>
+                            <Label for="exampleEmail">User Name</Label>
+                            <Input type="email" name="email" id="exampleEmail" placeholder="User's Point" />
+                        </FormGroup>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+}
+
+class StepThree extends React.Component {
+
+    render() {
+        let data = {
+            Name: "Test 1",
+            Users: ['Apple', 'Hello', 'Lover', 'Loving']
+        };
+        return (
+            <div>
+                <p className="bold-head">Review Points of Participents</p>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Participents</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.Users.map((UserData, keyUsers) => (
+                            <tr key={keyUsers}>
+                                <th scope="row">{keyUsers + 1}</th>
+                                <td> {UserData}</td>
+                                <td>10</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
         );
     }
 }
