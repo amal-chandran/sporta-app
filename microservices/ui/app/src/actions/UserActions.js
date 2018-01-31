@@ -3,6 +3,9 @@ import { userService } from '../services';
 import { alertActions } from './';
 import { history } from '../helpers';
 
+import config from "./../config/config.json";
+
+
 export const userActions = {
     login,
     logout,
@@ -19,7 +22,7 @@ function login(username, password) {
             .then(
             user => {
                 dispatch(success(user));
-                history.push('/user');
+                history.push(config.Redirect.Login);
             },
             error => {
                 dispatch(failure(error));
@@ -46,7 +49,7 @@ function register(user) {
             .then(
             user => {
                 dispatch(success());
-                history.push('/login');
+                history.push("/");
                 dispatch(alertActions.success('Registration successful'));
             },
             error => {

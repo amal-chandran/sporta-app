@@ -58,35 +58,37 @@ class Register extends React.Component {
                                     <form name="form" onSubmit={this.handleSubmit}>
                                         <h1>Register</h1>
                                         <p className="text-muted">Create your account</p>
+
+                                        <InputGroup className="mb-3">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="icon-user"></i>
+                                                </span>
+                                            </div>
+                                            <Input type="text" placeholder="First Name" name="firstName" value={user.firstName} onChange={this.handleChange} />
+                                        </InputGroup>
+                                        <InputGroup className="mb-3">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="icon-user"></i>
+                                                </span>
+                                            </div>
+                                            <Input type="text" placeholder="Last Name" name="lastName" value={user.lastName} onChange={this.handleChange} />
+                                        </InputGroup>
                                         <InputGroup className="mb-3">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">@</span>
                                             </div>
-                                            <Input type="text" placeholder="Email" name="username" value={user.username} onChange={this.handleChange} />
+                                            <Input type="text" placeholder="Username" name="username" value={user.username} onChange={this.handleChange} />
                                         </InputGroup>
-                                        <InputGroup className="mb-3">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text">
-                                                    <i className="icon-lock"></i>
-                                                </span>
-                                            </div>
-                                            <Input type="text" placeholder="firstName" name="firstName" value={user.firstName} onChange={this.handleChange} />
-                                        </InputGroup>
-                                        <InputGroup className="mb-3">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text">
-                                                    <i className="icon-lock"></i>
-                                                </span>
-                                            </div>
-                                            <Input type="text" placeholder="lastName" name="lastName" value={user.lastName} onChange={this.handleChange} />
-                                        </InputGroup>
+
                                         <InputGroup className="mb-4">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="icon-lock"></i>
                                                 </span>
                                             </div>
-                                            <Input type="password" placeholder="password" name="password" value={user.password} onChange={this.handleChange} />
+                                            <Input type="password" placeholder="Password" name="password" value={user.password} onChange={this.handleChange} />
                                         </InputGroup>
                                         <Row>
                                             <Col xs="6">

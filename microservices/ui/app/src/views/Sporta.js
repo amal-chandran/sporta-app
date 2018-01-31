@@ -21,7 +21,7 @@ export default class Scoreboard extends Component {
         this.DOM.main = document.querySelectorAll('main')[0];
 
         imagesLoaded(this.DOM.main, { background: true }, () => {
-            console.log("Added");
+            // console.log("Added");
             this.DOM.main.classList.remove('loading');
             new Slideshow(this.DOM.gridElems, {
                 filledColor: '#fff'

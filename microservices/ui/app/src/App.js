@@ -4,8 +4,9 @@ import Public from "./layout/Public";
 import { Router, Route, Redirect } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { store, configureFakeBackend, history } from './helpers';
+// import AuthRoute from "./components/AuthRoute";
 
-configureFakeBackend();
+// configureFakeBackend();
 
 class App extends Component {
   render() {
@@ -15,7 +16,7 @@ class App extends Component {
           <div>
             <Route exact path="/" name="Index" render={() => (<Redirect to={"/public/login"} />)} />
             <Route path={"/public"} name="Public" component={Public} />
-            <Route path={"/user"} name="User" component={Normal} />
+            <Route path={"/user"} name="User" component={Normal}></Route>
           </div>
         </Router>
       </Provider>

@@ -1,0 +1,6 @@
+{
+    "FBAppID": "12345678",
+    "Redirect": {
+        "Login": "/user/sporta"
+    }
+}

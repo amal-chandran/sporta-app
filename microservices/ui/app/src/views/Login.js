@@ -1,9 +1,15 @@
 import React, { Component } from "react";
-import { Row, Col, CardGroup, Card, CardBody, CardFooter, InputGroup, Input, Button, Container } from "reactstrap";
+import {
+    Row, Col, CardGroup, Card, CardBody, CardFooter,
+    InputGroup, Input, Button, Container
+} from "reactstrap";
+
 import { NavLink as RsNavLink, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
+
 import { userActions } from "./../actions";
 import { history } from './../helpers';
+import FBLoginButton from "./../components/FBLoginButton";
 
 class Login extends Component {
     constructor(props) {
@@ -53,7 +59,7 @@ class Login extends Component {
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">@</span>
                                             </div>
-                                            <Input type="text" name="username" placeholder="Email" onChange={this.handleChange} />
+                                            <Input type="text" name="username" placeholder="Username" onChange={this.handleChange} />
                                         </InputGroup>
                                         <InputGroup className="mb-4">
                                             <div className="input-group-prepend">
@@ -80,7 +86,7 @@ class Login extends Component {
                                 <CardFooter className="p-4">
                                     <Row>
                                         <Col xs="12" sm="6">
-                                            <Button className="btn-facebook" block><span>facebook</span></Button>
+                                            <FBLoginButton />
                                         </Col>
                                         <Col xs="12" sm="6">
                                             <Button className="btn-twitter" block><span>twitter</span></Button>
