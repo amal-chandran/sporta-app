@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import FacebookProvider, { Login as FBLogin } from 'react-facebook';
 import { Button } from "reactstrap";
-
 import SocialLogin from 'react-social-login'
+
 import config from "./../config/config.json";
 
 
