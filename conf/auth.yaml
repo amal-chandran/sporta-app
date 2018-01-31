@@ -118,7 +118,7 @@ password:
 # Configuration for facebook provider
 facebook:
  # your facebook app client id
- clientId: 2013152085569725
+ clientId: "2013152085569725"
  # your facebook app client secret
  clientSecret:
    secretKeyRef:
