@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 import { userActions } from "./../actions";
 import { history } from './../helpers';
-import FBLoginButton from "./../components/FBLoginButton";
+import { FacebookLoginButton, GoogleLoginButton } from "./../components/SocialLoginButton";
 
 class Login extends Component {
     constructor(props) {
@@ -86,10 +86,11 @@ class Login extends Component {
                                 <CardFooter className="p-4">
                                     <Row>
                                         <Col xs="12" sm="6">
-                                            <FBLoginButton />
+                                            <FacebookLoginButton />
                                         </Col>
                                         <Col xs="12" sm="6">
-                                            <Button className="btn-twitter" block><span>twitter</span></Button>
+                                            <GoogleLoginButton />
+                                            {/* <Button className="btn-twitter" block><span>twitter</span></Button> */}
                                         </Col>
                                     </Row>
                                 </CardFooter>

@@ -1,5 +1,6 @@
 {
-    "FBAppID": "12345678",
+    "FacebookAppID": "2013152085569725",
+    "GoogleAppID": "441378329624-9k7u5abqbco798sbjhrfq9qtfdg5op26.apps.googleusercontent.com",
     "Redirect": {
         "Login": "/user/sporta"
     }

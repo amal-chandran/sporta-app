@@ -27,7 +27,7 @@ defaultProviders:
     enabled: "false"
     defaultRoles: []
   google:
-    enabled: "false"
+    enabled: "true"
     defaultRoles: []
   facebook:
     enabled: "true"
@@ -52,11 +52,11 @@ session:
 # Configuration related to the email provider
 email:
   # email address of the sender for verification emails
-  verifyEmailFrom: getstarteduser@hasura.io
+  verifyEmailFrom: cepsporta@gmail.com
   # Name of the sender for verification emails
   verifEmailFromName: admin
   # Subject for verification emails
-  verifyEmailSubject: MyAwesomeApp - Verify your account
+  verifyEmailSubject: Sporta - Verify your account
   # Template for verification emails. HTML can be used in the template. The
   # template is a Jinja template. Leave the "{{token}}" as it is. It will be
   # used by the auth service to inject the actual token when sending the email.
@@ -68,11 +68,11 @@ email:
   verifyTokenExpires: "7"
 
   # email address of the sender for forgot password emails
-  forgotPassEmailFrom: getstarteduser@hasura.io
+  forgotPassEmailFrom: cepsporta@gmail.com
   # Name of the sender for forgot password emails
   forgotPassEmailFromName: admin
   # Subject for forgot password emails
-  forgotPassEmailSubject: MyAwesomeApp - Reset password request
+  forgotPassEmailSubject: Sporta - Reset password request
   # Template for forgot password emails. HTML can be used in the template. The
   # template is a Jinja template. Leave the "{{token}}" as it is. It will be
   # used by the auth service to inject the actual token when sending the email.
@@ -111,9 +111,9 @@ password:
 # Below fields are all optional
 #
 # Configuration for google provider
-#google:
-#  # list of the all the client ids generated for your Google app
-#  clientIds: ["xxxxxx", "yyyyyy"]
+google:
+ # list of the all the client ids generated for your Google app
+ clientIds: ["441378329624-9k7u5abqbco798sbjhrfq9qtfdg5op26.apps.googleusercontent.com", "yyyyyy"]
 #
 # Configuration for facebook provider
 facebook:
