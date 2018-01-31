@@ -14,7 +14,11 @@ export const userActions = {
 };
 
 function requestLogin() { return { type: userConstants.LOGIN_REQUEST } }
-function successLogin(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
+function successLogin(user) {
+    history.push(config.Redirect.Login);
+
+    return { type: userConstants.LOGIN_SUCCESS, user }
+}
 function failureLogin(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 
 function login(username, password) {
@@ -25,7 +29,6 @@ function login(username, password) {
             .then(
             user => {
                 dispatch(successLogin(user));
-                history.push(config.Redirect.Login);
             },
             error => {
                 dispatch(failureLogin(error));
@@ -36,8 +39,9 @@ function login(username, password) {
 
 }
 
-function loginFacebook({ _token }) {
+function loginFacebook(data) {
     return (dispatch) => {
+        console.log(data);
         dispatch(requestLogin());
 
         var url = "https://auth." + config.Cluster + ".hasura-app.io/v1/signup";
@@ -52,7 +56,7 @@ function loginFacebook({ _token }) {
         var body = {
             "provider": "facebook",
             "data": {
-                "access_token": _token.accessToken
+                "access_token": data._token.accessToken
             }
         };
 
@@ -63,12 +67,13 @@ function loginFacebook({ _token }) {
                 return response.json();
             })
             .then(function (result) {
-                // localStorage.setItem('user', JSON.stringify(user));
+                dispatch(successLogin(result));
 
-                console.log(result);
-
+                localStorage.setItem('user', JSON.stringify(result));
             })
             .catch(function (error) {
+                dispatch(failureLogin(error));
+                dispatch(alertActions.error(error));
                 console.log('Request Failed:' + error);
             });
     };

@@ -93,6 +93,7 @@ class Login extends Component {
                                         <Row>
                                             <Col xs="12" sm="6">
                                                 <FacebookLoginButton handleResponse={(data) => {
+                                                    console.log("From Button Handler" + data)
                                                     this.props.dispatch(userActions.loginFacebook(data))
                                                 }} handleError={(err) => { console.log(err) }} />
                                             </Col>
