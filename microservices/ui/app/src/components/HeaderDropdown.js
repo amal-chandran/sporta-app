@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 import {
   Badge,
   DropdownItem,
@@ -27,11 +29,14 @@ class HeaderDropdown extends Component {
     });
   }
 
-  dropAccnt() {
+
+
+  render() {
+    const { profile, ...attributes } = this.props;
     return (
       <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle nav>
-          <img src={avatars} className="img-avatar" alt="avatar" />
+          <img src={!isEmpty(profile.item) ? profile.item[0].photo : avatars} className="img-avatar" alt="avatar" />
         </DropdownToggle>
         <DropdownMenu right>
           <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
@@ -44,14 +49,12 @@ class HeaderDropdown extends Component {
         </DropdownMenu>
       </Dropdown>
     );
-  }
 
-  render() {
-    const { ...attributes } = this.props;
-    return (
-      this.dropAccnt()
-    );
   }
 }
-
-export default HeaderDropdown;
+let mapStateToProps = (state) => {
+  return {
+    profile: state.profile
+  };
+};
+export default connect(mapStateToProps)(HeaderDropdown);

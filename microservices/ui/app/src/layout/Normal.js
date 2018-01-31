@@ -3,14 +3,19 @@ import { Header, Sidebar } from "./../components";
 import { Container, Table, Badge, Card, Row, Col, CardBody, CardHeader } from 'reactstrap';
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-
+import { bindActionCreators } from "redux";
+import { profile } from "./../resources";
 import Events from "./../views/Events";
 // import Sporta from "./../views/Sporta";
 import Users from "./../views/Users";
 // import EventManager from "./../views/EventManager";
 import Scoreboard from "./../views/Scoreboard";
+import Button from "material-ui/Button/Button";
 
 class Normal extends Component {
+    componentWillMount() {
+        this.props.dispatch(profile.getProfile())
+    }
 
     render() {
         let { match, Auth } = this.props;
@@ -44,8 +49,13 @@ class Normal extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        Auth: state.authentication
+        Auth: state.authentication,
+        profile: state.profile
     };
 };
+
+
+// mapDispatchToProps
+
 
 export default connect(mapStateToProps)(Normal);

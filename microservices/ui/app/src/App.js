@@ -4,6 +4,7 @@ import Public from "./layout/Public";
 import { Router, Route, Redirect } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { store, configureFakeBackend, history } from './helpers';
+import AlertSnackbar from "./components/AlertSnackbar";
 // import AuthRoute from "./components/AuthRoute";
 
 // configureFakeBackend();
@@ -14,6 +15,7 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history}>
           <div>
+            <AlertSnackbar />
             <Route exact path="/" name="Index" render={() => (<Redirect to={"/public/login"} />)} />
             <Route path={"/public"} name="Public" component={Public} />
             <Route path={"/user"} name="User" component={Normal}></Route>

@@ -5,26 +5,33 @@ import { history } from '../helpers';
 
 import config from "./../config/config.json";
 import "whatwg-fetch";
-
+import { profile } from "./../resources";
 
 export const userActions = {
     login,
     logout,
-    register, loginFacebook
+    register, loginFacebook, loginGoogle,
+    failureLogin, requestLogin
 };
 
 function requestLogin() { return { type: userConstants.LOGIN_REQUEST } }
-function successLogin(user) {
-    history.push(config.Redirect.Login);
 
+function successLogin(user) {
     return { type: userConstants.LOGIN_SUCCESS, user }
 }
-function failureLogin(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+
+function failureLogin(error) {
+    return (dispatch) => {
+        dispatch(alertActions.error("Authentication failed"));
+        dispatch(failureLoginSync());
+    }
+}
+function failureLoginSync(error) {
+    return { type: userConstants.LOGIN_FAILURE, error }
+}
 
 function login(username, password) {
     return dispatch => {
-        dispatch(requestLogin());
-
         userService.login(username, password)
             .then(
             user => {
@@ -32,18 +39,13 @@ function login(username, password) {
             },
             error => {
                 dispatch(failureLogin(error));
-                dispatch(alertActions.error(error));
-            }
-            );
+            });
     };
 
 }
 
 function loginFacebook(data) {
     return (dispatch) => {
-        console.log(data);
-        dispatch(requestLogin());
-
         var url = "https://auth." + config.Cluster + ".hasura-app.io/v1/signup";
 
         var requestOptions = {
@@ -67,14 +69,62 @@ function loginFacebook(data) {
                 return response.json();
             })
             .then(function (result) {
+                localStorage.setItem('userAuth', JSON.stringify(data));
+                localStorage.setItem('user', JSON.stringify(result));
                 dispatch(successLogin(result));
 
-                localStorage.setItem('user', JSON.stringify(result));
+                if (result.extra_info.new_user) {
+                    dispatch(profile.createProfile());
+                }
+                dispatch(profile.getProfile());
+
+                history.push(config.Redirect.Login);
             })
             .catch(function (error) {
                 dispatch(failureLogin(error));
-                dispatch(alertActions.error(error));
-                console.log('Request Failed:' + error);
+            });
+    };
+}
+
+function loginGoogle(data) {
+    return (dispatch) => {
+
+        var url = "https://auth." + config.Cluster + ".hasura-app.io/v1/signup";
+
+        var requestOptions = {
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        };
+
+        var body = {
+            "provider": "google",
+            "data": {
+                "access_token": data._token.accessToken
+            }
+        };
+
+        requestOptions.body = JSON.stringify(body);
+
+        fetch(url, requestOptions)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (result) {
+                localStorage.setItem('userAuth', JSON.stringify(data));
+                localStorage.setItem('user', JSON.stringify(result));
+                dispatch(successLogin(result));
+
+                if (result.extra_info.new_user) {
+                    dispatch(profile.createProfile());
+                }
+                dispatch(profile.getProfile());
+
+                history.push(config.Redirect.Login);
+            })
+            .catch(function (error) {
+                dispatch(failureLogin(error));
             });
     };
 }

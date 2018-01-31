@@ -1,0 +1,16 @@
+- args:
+    role: user
+    table: profile
+  type: drop_select_permission
+- args:
+    permission:
+      columns:
+      - pid
+      - uid
+      - name
+      - photo
+      - verified
+      filter: {}
+    role: user
+    table: profile
+  type: create_select_permission

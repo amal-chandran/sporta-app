@@ -1,0 +1,9 @@
+- args:
+    permission:
+      columns: []
+      filter:
+        uid:
+          $eq: X-HASURA-USER-ID
+    role: user
+    table: profile
+  type: create_select_permission

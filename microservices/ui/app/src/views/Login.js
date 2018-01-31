@@ -7,7 +7,7 @@ import {
 import { NavLink as RsNavLink, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { userActions } from "./../actions";
+import { userActions, alertActions } from "./../actions";
 import { history } from './../helpers';
 import { FacebookLoginButton, GoogleLoginButton } from "./../components/SocialLoginButton";
 import Loadable from "react-loading-overlay";
@@ -44,6 +44,15 @@ class Login extends Component {
             dispatch(userActions.login(username, password));
         }
     }
+
+    handleError = () => {
+        this.props.dispatch(userActions.failureLogin());
+    }
+
+    handleLogin = () => {
+        this.props.dispatch(userActions.requestLogin());
+    }
+
     render() {
         let { props } = this;
         return (
@@ -92,13 +101,20 @@ class Login extends Component {
                                     <CardFooter className="p-4">
                                         <Row>
                                             <Col xs="12" sm="6">
-                                                <FacebookLoginButton handleResponse={(data) => {
-                                                    console.log("From Button Handler" + data)
-                                                    this.props.dispatch(userActions.loginFacebook(data))
-                                                }} handleError={(err) => { console.log(err) }} />
+                                                <div onClick={this.handleLogin}>
+                                                    <FacebookLoginButton handleResponse={(data) => {
+                                                        this.props.dispatch(userActions.loginFacebook(data));
+                                                    }} handleError={this.handleError} />
+                                                </div>
                                             </Col>
                                             <Col xs="12" sm="6">
-                                                <GoogleLoginButton handleResponse={(data) => { console.log(data); }} handleError={(err) => { console.log(err) }} />
+                                                <div onClick={this.handleLogin}>
+                                                    <GoogleLoginButton
+                                                        handleResponse={(data) => {
+                                                            this.props.dispatch(userActions.loginGoogle(data));
+                                                        }}
+                                                        handleError={this.handleError} />
+                                                </div>
                                             </Col>
                                         </Row>
                                     </CardFooter>

@@ -4,5 +4,6 @@
     "Redirect": {
         "Login": "/user/sporta"
     },
-    "Cluster": "breathlessness74"
+    "Cluster": "breathlessness74",
+    "Query": "https://data.breathlessness74.hasura-app.io/v1/query"
 }

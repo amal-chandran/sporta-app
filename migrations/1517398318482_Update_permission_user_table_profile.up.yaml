@@ -1,0 +1,10 @@
+- args:
+    role: user
+    table: profile
+  type: drop_insert_permission
+- args:
+    permission:
+      check: {}
+    role: user
+    table: profile
+  type: create_insert_permission
