@@ -22,41 +22,16 @@ const FacebookButton = ({ children, triggerLogin, ...props }) => (
 
 const FacebootLogin = SocialLogin(FacebookButton);
 
-// export class FBLoginButton extends Component {
-
-//     handleResponse = (data) => {
-//         console.log(data);
-//     }
-
-//     handleError = (error) => {
-//         this.setState({ error });
-//     }
-
-//     render() {
-//         return (
-//             <FacebookProvider appId={config.FBAppID}>
-//                 <FBLogin
-//                     scope="email"
-//                     onResponse={this.handleResponse}
-//                     onError={this.handleError}
-//                     render={({ isLoading, isWorking, onClick }) => (
-//                         <Button onClick={onClick} className="btn-facebook" block><span>facebook</span>
-//                             {(isLoading || isWorking) && (<span>Loading...</span>)}
-//                         </Button>
-//                     )}
-//                 />
-//             </FacebookProvider>
-//         );
-//     }
-// }
 
 export class GoogleLoginButton extends Component {
 
     handleResponse = (data) => {
         console.log(data);
+        this.props.handleResponse(data.e);
     }
 
     handleError = (error) => {
+        this.props.handleError(error);
         this.setState({ error });
     }
 
@@ -76,9 +51,11 @@ export class FacebookLoginButton extends Component {
 
     handleResponse = (data) => {
         console.log(data);
+        this.props.handleResponse(data.e);
     }
 
     handleError = (error) => {
+        this.props.handleError(error);
         this.setState({ error });
     }
 

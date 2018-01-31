@@ -86,7 +86,9 @@ class Login extends Component {
                                 <CardFooter className="p-4">
                                     <Row>
                                         <Col xs="12" sm="6">
-                                            <FacebookLoginButton />
+                                            <FacebookLoginButton handleResponse={(data) => {
+                                                dispatch(userActions.loginFacebook(data))
+                                            }} handleError={(err) => { console.log(err) }} />
                                         </Col>
                                         <Col xs="12" sm="6">
                                             <GoogleLoginButton />
