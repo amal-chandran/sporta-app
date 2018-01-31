@@ -15,13 +15,12 @@ export default {
       main: true
     },
     {
-      name: 'EventManager',
-      url: '/user/eventmanager',
-      main: true
-    },
-    {
       name: 'Scoreboard',
       url: '/user/scoreboard',
+    },
+    {
+      name: 'Notifications',
+      url: '/user/notifications',
     }
     // {
     //   name: 'Settings',

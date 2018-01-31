@@ -1,0 +1,12 @@
+- args:
+    permission:
+      columns:
+      - eid
+      - name
+      - discription
+      - photo
+      - started
+      filter: {}
+    role: user
+    table: events
+  type: create_select_permission

@@ -6,21 +6,23 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { profile } from "./../resources";
 import Events from "./../views/Events";
+import Notifications from "./../views/Notifications";
 // import Sporta from "./../views/Sporta";
 import Users from "./../views/Users";
 // import EventManager from "./../views/EventManager";
 import Scoreboard from "./../views/Scoreboard";
 import Button from "material-ui/Button/Button";
+import { isAuthentic } from "./../helpers/Underscore";
 
 class Normal extends Component {
     componentWillMount() {
-        this.props.dispatch(profile.getProfile())
+        isAuthentic(['user', 'admin']) ? this.props.dispatch(profile.getProfile()) : "";
     }
 
     render() {
         let { match, Auth } = this.props;
         return (
-            localStorage.getItem('user') && Auth.loggedIn ?
+            isAuthentic(['user', 'admin']) ?
                 <div className="app" >
                     <Header private={true} />
                     <div className="app-body">
@@ -34,6 +36,7 @@ class Normal extends Component {
                                         {/* <Route path={match.url + "/eventmanager/:id"} name="EventManager" component={EventManager} /> */}
                                         <Route path={match.url + "/users"} name="Users" component={Users} />
                                         {/* <Route path={match.url + "/sporta"} name="Sporta" component={Sporta} /> */}
+                                        <Route path={match.url + "/notifications"} name="Notifications" component={Notifications} />
                                         <Route path={match.url + "/events"} name="Events" component={Events} />
                                         {/* <Route exact path={match.url} name="Index" component={Sporta} />)} /> */}
                                     </Switch>

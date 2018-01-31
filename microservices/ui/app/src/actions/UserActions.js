@@ -74,7 +74,7 @@ function loginFacebook(data) {
                 dispatch(successLogin(result));
 
                 if (result.extra_info.new_user) {
-                    dispatch(profile.createProfile());
+                    dispatch(profile.createProfile("loginFacebook"));
                 }
                 dispatch(profile.getProfile());
 
@@ -117,7 +117,7 @@ function loginGoogle(data) {
                 dispatch(successLogin(result));
 
                 if (result.extra_info.new_user) {
-                    dispatch(profile.createProfile());
+                    dispatch(profile.createProfile("loginGoogle"));
                 }
                 dispatch(profile.getProfile());
 

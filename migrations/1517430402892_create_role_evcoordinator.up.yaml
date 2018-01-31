@@ -1,0 +1,3 @@
+- args:
+    sql: INSERT INTO hauth_catalog.roles (name) VALUES ('evcoordinator')
+  type: run_sql

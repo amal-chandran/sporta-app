@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "fb-react-sdk": "^1.0.4",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
     "imagesloaded": "^4.1.4",
@@ -17,6 +18,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
     "react-social-login": "^3.4.2",
+    "react-timestamp": "^4.3.1",
     "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
@@ -24,7 +26,8 @@
     "redux-rest-resource": "^0.16.2",
     "redux-thunk": "^2.2.0",
     "simple-line-icons": "^2.4.1",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "xregexp": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

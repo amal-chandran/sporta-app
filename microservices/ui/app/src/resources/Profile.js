@@ -1,7 +1,7 @@
 import { createResource } from 'redux-rest-resource';
 import config from "./../config/config.json";
-import { getAuthHeader, getUserID, getProfileData } from "./../services/AuthService";
-
+import { getAuthHeader, getUserID, getProfileData, getLoginProivderData } from "./../services/AuthService";
+import graph from "fb-react-sdk";
 
 const { types, actions, rootReducer } = createResource({
     name: 'profile',
@@ -18,30 +18,45 @@ const { types, actions, rootReducer } = createResource({
 });
 
 
-let createProfile = () => {
+let createProfile = (fromData) => {
     return (dispatch) => {
         let UID = getUserID();
         let ProfileData = getProfileData();
         if (UID && ProfileData) {
-            dispatch(actions.createProfile({
-                "type": "insert",
-                "args": {
-                    "table": "profile",
-                    "objects": [
-                        {
-                            "uid": UID,
-                            "verified": "false",
-                            "photo": ProfileData.profilepic,
-                            "name": ProfileData.name
-                        }
-                    ],
-                    "returning": [
-                        "pid"
-                    ]
-                }
-            }));
+            ProfileData.UID = UID;
+            ProfileData.res = {};
+            if (fromData === "loginFacebook") {
+                graph.setAccessToken(getLoginProivderData()._token.accessToken);
+                graph.get("me?fields=id,name,picture.type(large),cover,email,gender", function (err, res) {
+                    ProfileData.res = res;
+                    createData(dispatch, ProfileData);
+                });
+            } else {
+                createData(dispatch, ProfileData);
+            }
         }
     }
+}
+
+function createData(dispatch, ProfileData) {
+    dispatch(actions.createProfile({
+        "type": "insert",
+        "args": {
+            "table": "profile",
+            "objects": [
+                {
+                    "uid": ProfileData.UID,
+                    "verified": "false",
+                    "photo": ProfileData.profilepic,
+                    "name": ProfileData.name,
+                    "other": ProfileData.res
+                }
+            ],
+            "returning": [
+                "pid"
+            ]
+        }
+    }));
 }
 
 let getProfile = () => {

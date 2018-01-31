@@ -1,0 +1,3 @@
+- args:
+    sql: ALTER TABLE "profile" ADD COLUMN "other" json NUll
+  type: run_sql

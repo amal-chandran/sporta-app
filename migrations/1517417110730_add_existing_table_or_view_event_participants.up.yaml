@@ -1,0 +1,3 @@
+- args:
+    name: event_participants
+  type: add_existing_table_or_view

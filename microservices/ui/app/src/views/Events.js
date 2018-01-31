@@ -1,55 +1,26 @@
-import React from "react";
+import React, { Component } from "react";
 import {
     Col, Row, Card, CardBody, CardImg,
     CardTitle, CardText, Button, CardSubtitle,
     Nav, NavLink, NavItem, Form, FormGroup, Input, Label
 } from "reactstrap";
 
-import { history } from './../helpers';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
+import { history } from './../helpers';
+import { events } from "./../resources";
 import SubNav from "../components/SubNav";
 import ResponsiveMenuDialog from "../components/ResponsiveMenuDialog";
-
-let RandomData = [
-    {
-        id: "1",
-        name: "Marathon",
-        text: `The Marathon will start from Poonjar Bus Stand where the flagoff will be initiated and will end at College of Engineering, Poonjar on 31/01/2018. The participants need to cover a 3.9km hilly track. A cash price awaits the winner.`,
-        image: "/images/1.jpg"
-    },
-    {
-        id: "1",
-        name: "Marathon",
-        text: `The Marathon will start from Poonjar Bus Stand where the flagoff will be initiated and will end at College of Engineering, Poonjar on 31/01/2018. The participants need to cover a 3.9km hilly track. A cash price awaits the winner.`,
-        image: "/images/1.jpg"
-    },
-    {
-        id: "1",
-        name: "Marathon",
-        text: `The Marathon will start from Poonjar Bus Stand where the flagoff will be initiated and will end at College of Engineering, Poonjar on 31/01/2018. The participants need to cover a 3.9km hilly track. A cash price awaits the winner.`,
-        image: "/images/1.jpg"
-    },
-    {
-        id: "1",
-        name: "Marathon",
-        text: `The Marathon will start from Poonjar Bus Stand where the flagoff will be initiated and will end at College of Engineering, Poonjar on 31/01/2018. The participants need to cover a 3.9km hilly track. A cash price awaits the winner.`,
-        image: "/images/1.jpg"
-    },
-    {
-        id: "1",
-        name: "Marathon",
-        text: `The Marathon will start from Poonjar Bus Stand where the flagoff will be initiated and will end at College of Engineering, Poonjar on 31/01/2018. The participants need to cover a 3.9km hilly track. A cash price awaits the winner.`,
-        image: "/images/1.jpg"
-    },
-
-];
+import Loadable from "react-loading-overlay";
+import { isAuthentic } from "./../helpers/Underscore";
 
 let NavControll = () => {
     return (
         <SubNav Name="Event">
             <Nav className="ml-auto" navbar>
                 <NavItem>
-                    <CreateEvent />
+                    {isAuthentic(['admin']) ? <CreateEvent /> : ""}
                 </NavItem>
             </Nav>
         </SubNav>
@@ -84,25 +55,63 @@ let CreateEventForm = () => (
     </div>
 );
 
-export default () => (
-    <Row>
-        <Col xs={12} sm={12}>
-            <NavControll> </NavControll>
-        </Col>
-        {RandomData.map((cardData, key) => (
-            <Col key={key} xs={12} sm={4}>
-                <Card>
-                    <CardImg top width="100%" src={cardData.image} alt={cardData.name} />
-                    <CardBody>
-                        <CardTitle>{cardData.name}</CardTitle>
-                        <CardText>{cardData.text}</CardText>
-                        <div className="clearfix">
-                        </div >
-                        <Button onClick={() => { history.push("/user/eventmanager/" + cardData.id) }} className="float-left">Manage</Button>
-                        <Button color="primary" className="float-right">Participate</Button>
-                    </CardBody>
-                </Card>
-            </Col>
-        ))}
-    </Row>
-);
+class EventList extends Component {
+    componentWillMount() {
+        this.props.actions.fetchEvents();
+    }
+    render() {
+        let { events, actions, isParticipating, isFetching } = this.props;
+        return (
+            <Loadable
+                active={isParticipating || isFetching}
+                spinner
+                text='Processing ...'
+            >
+                <Row>
+
+                    <Col xs={12} sm={12}>
+                        <NavControll> </NavControll>
+                    </Col>
+
+                    {events.map((cardData, key) => (
+                        <Col key={key} xs={12} sm={4}>
+                            <Card>
+                                <CardImg top width="100%" src={cardData.photo} alt={cardData.name} />
+                                <CardBody>
+                                    <CardTitle>{cardData.name}</CardTitle>
+                                    <CardText>{cardData.discription}</CardText>
+                                    <div className="clearfix">
+                                    </div >
+                                    {isAuthentic(['admin']) ? < Button onClick={() => { history.push("/user/eventmanager/" + cardData.eid) }} className="float-left">Manage</Button> : ""}
+                                    <Button disabled={cardData.uid ? true : false} onClick={() => { actions.participateEvents(cardData.eid) }} color="primary" className="float-right">Participate</Button>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    ))}
+
+                </Row>
+            </Loadable>
+        );
+    }
+}
+
+let mapStateToProps = (state) => {
+
+    let { isParticipating, isFetching, items } = state.events;
+    return {
+        isParticipating,
+        isFetching,
+        events: items
+    }
+};
+
+
+export default connect(mapStateToProps,
+    (dispatch) => {
+        return {
+            actions: bindActionCreators({
+                fetchEvents: events.fetchEvents,
+                participateEvents: events.participateEvents
+            }, dispatch)
+        }
+    })(EventList);

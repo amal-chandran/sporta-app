@@ -1,0 +1,12 @@
+- args:
+    permission:
+      columns:
+      - nid
+      - message
+      - head
+      - image
+      - time
+      filter: {}
+    role: user
+    table: notifications
+  type: create_select_permission

@@ -1,0 +1,8 @@
+- args:
+    sql: CREATE TABLE "notifications"("nid" serial NOT NULL, "message" text NOT NULL,
+      "head" text NOT NULL, "image" text NOT NULL, "time" timestamptz NOT NULL DEFAULT
+      now(), PRIMARY KEY ("nid") )
+  type: run_sql
+- args:
+    name: notifications
+  type: add_existing_table_or_view

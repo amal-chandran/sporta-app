@@ -1,0 +1,14 @@
+- args:
+    role: user
+    table: participants
+  type: drop_select_permission
+- args:
+    permission:
+      columns:
+      - confirmed
+      - eid
+      - ptid
+      filter: {}
+    role: user
+    table: participants
+  type: create_select_permission

@@ -20,6 +20,7 @@ const FacebootLogin = SocialLogin(({ children, triggerLogin, ...props }) => (
 
 export const FacebookLoginButton = (props) => (
     <FacebootLogin
+        // scope="id,name,picture.type(large),email"
         provider='facebook'
         appId={config.FacebookAppID}
         onLoginSuccess={props.handleResponse}

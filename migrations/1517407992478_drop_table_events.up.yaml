@@ -1,0 +1,3 @@
+- args:
+    sql: DROP TABLE "events"
+  type: run_sql
