@@ -15,10 +15,10 @@
 # defaultRoles: ["admin"]
 defaultProviders:
   username:
-    enabled: "true"
+    enabled: "false"
     defaultRoles: []
   email:
-    enabled: "false"
+    enabled: "true"
     defaultRoles: []
   mobile:
     enabled: "false"
