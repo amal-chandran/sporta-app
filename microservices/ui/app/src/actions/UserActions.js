@@ -84,12 +84,12 @@ function LoginSuccesCommit(data, result, loginAuth, dispatch) {
     localStorage.setItem('user', JSON.stringify(result));
     dispatch(successLogin(result));
 
+    console.log("Logined");
     if (result.extra_info.new_user) {
         dispatch(profile.createProfile(loginAuth));
         history.push(config.Redirect.newLogin);
     }
     dispatch(profile.getProfile());
-
     history.push(config.Redirect.Login);
 }
 
