@@ -1,0 +1,4 @@
+- args:
+    role: user
+    table: participants
+  type: drop_insert_permission

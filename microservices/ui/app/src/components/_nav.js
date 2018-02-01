@@ -23,7 +23,7 @@ export default {
       url: '/user/notifications',
     },
     {
-      name: 'Settings',
+      name: 'Profile',
       url: '/user/settings',
     }
     // {

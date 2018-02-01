@@ -1,0 +1,12 @@
+- args:
+    permission:
+      columns:
+      - ptid
+      - eid
+      - confirmed
+      - uid
+      - eiduid
+      filter: {}
+    role: user
+    table: participants
+  type: create_select_permission

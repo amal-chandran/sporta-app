@@ -1,0 +1,4 @@
+- args:
+    role: user
+    table: participants
+  type: drop_select_permission

@@ -34,14 +34,48 @@ function failureLoginSync(error) {
 
 function login(username, password) {
     return dispatch => {
-        userService.login(username, password)
-            .then(
-            user => {
-                dispatch(successLogin(user));
-            },
-            error => {
-                dispatch(failureLogin(error));
-            });
+
+        var url = "https://auth." + config.Cluster + ".hasura-app.io/v1/login";
+
+        var requestOptions = {
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        };
+
+        var body = {
+            "provider": "username",
+            "data": {
+                "username": username,
+                "password": password
+            }
+        };
+
+        requestOptions.body = JSON.stringify(body);
+
+        fetch(url, requestOptions)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (result) {
+
+                localStorage.setItem('user', JSON.stringify(result));
+                dispatch(successLogin(result));
+
+                dispatch(profile.getProfile());
+                history.push(config.Redirect.Login);
+
+            })
+
+        // userService.login(username, password)
+        //     .then(
+        //     user => {
+        //         dispatch(successLogin(user));
+        //     },
+        //     error => {
+        //         dispatch(failureLogin(error));
+        //     });
     };
 
 }
@@ -186,18 +220,54 @@ function register(user) {
     return dispatch => {
         dispatch(request(user));
 
-        userService.register(user)
-            .then(
-            user => {
-                dispatch(success());
-                history.push("/");
-                dispatch(alertActions.success('Registration successful'));
-            },
-            error => {
-                dispatch(failure(error));
-                dispatch(alertActions.error(error));
+        var url = "https://auth." + config.Cluster + ".hasura-app.io/v1/signup";
+
+        var requestOptions = {
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json"
             }
-            );
+        };
+
+        var body = {
+            "provider": "username",
+            "data": {
+                "username": user.username,
+                "password": user.password
+            }
+        };
+
+        requestOptions.body = JSON.stringify(body);
+
+        fetch(url, requestOptions)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (result) {
+                localStorage.setItem('user', JSON.stringify(result));
+                dispatch(successLogin(result));
+
+                if (result.extra_info.new_user) {
+                    user.name = user.firstName + " " + user.lastName;
+                    dispatch(profile.createProfile(user));
+                    history.push(config.Redirect.newLogin);
+                }
+                dispatch(profile.getProfile());
+                history.push(config.Redirect.Login);
+            })
+
+        // userService.register(user)
+        //     .then(
+        //     user => {
+        //         dispatch(success());
+        //         history.push("/");
+        //         dispatch(alertActions.success('Registration successful'));
+        //     },
+        //     error => {
+        //         dispatch(failure(error));
+        //         dispatch(alertActions.error(error));
+        //     }
+        //     );
     };
 
     function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }

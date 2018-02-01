@@ -4,6 +4,8 @@ import { history } from './../helpers';
 import { userActions } from '../actions';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
+import SocialFooter from "./../components/SocialFooter";
+
 
 class Register extends React.Component {
     constructor(props) {
@@ -11,8 +13,8 @@ class Register extends React.Component {
 
         this.state = {
             user: {
-                firstName: '',
-                lastName: '',
+                name: '',
+                email: '',
                 username: '',
                 password: ''
             },
@@ -40,7 +42,7 @@ class Register extends React.Component {
         this.setState({ submitted: true });
         const { user } = this.state;
         const { dispatch } = this.props;
-        if (user.firstName && user.lastName && user.username && user.password) {
+        if (user.name && user.email && user.username && user.password) {
             dispatch(userActions.register(user));
         }
     }
@@ -65,21 +67,21 @@ class Register extends React.Component {
                                                     <i className="icon-user"></i>
                                                 </span>
                                             </div>
-                                            <Input type="text" placeholder="First Name" name="firstName" value={user.firstName} onChange={this.handleChange} />
+                                            <Input type="text" placeholder="Name" name="name" value={user.name} onChange={this.handleChange} />
                                         </InputGroup>
-                                        <InputGroup className="mb-3">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text">
-                                                    <i className="icon-user"></i>
-                                                </span>
-                                            </div>
-                                            <Input type="text" placeholder="Last Name" name="lastName" value={user.lastName} onChange={this.handleChange} />
-                                        </InputGroup>
+
                                         <InputGroup className="mb-3">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">@</span>
                                             </div>
                                             <Input type="text" placeholder="Username" name="username" value={user.username} onChange={this.handleChange} />
+                                        </InputGroup>
+
+                                        <InputGroup className="mb-3">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">@</span>
+                                            </div>
+                                            <Input type="text" placeholder="Email" name="email" value={user.email} onChange={this.handleChange} />
                                         </InputGroup>
 
                                         <InputGroup className="mb-4">
@@ -95,7 +97,7 @@ class Register extends React.Component {
                                                 <Button color="success" block>Create Account</Button>
                                             </Col>
                                             <Col xs="6" className="text-right">
-                                                <Button color="link" className="px-0 float-right">Forgot password?</Button>
+                                                {/* <Button color="link" className="px-0 float-right">Forgot password?</Button> */}
                                             </Col>
                                         </Row>
                                         <InputGroup className="mb-4">
@@ -105,16 +107,8 @@ class Register extends React.Component {
                                     <Button color="primary" onClick={() => { this.props.history.push("/public/login"); }} block>Login</Button>
 
                                 </CardBody>
-                                <CardFooter className="p-4">
-                                    <Row>
-                                        <Col xs="12" sm="6">
-                                            <Button className="btn-facebook" block><span>facebook</span></Button>
-                                        </Col>
-                                        <Col xs="12" sm="6">
-                                            <Button className="btn-twitter" block><span>twitter</span></Button>
-                                        </Col>
-                                    </Row>
-                                </CardFooter>
+                                <SocialFooter />
+
                             </Card>
                         </Col>
                     </Row>

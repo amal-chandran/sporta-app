@@ -17,6 +17,8 @@ import Loadable from "react-loading-overlay";
 import { isAuthentic } from "./../helpers/Underscore";
 import isEmpty from "lodash/isEmpty";
 import isNull from "lodash/isNull";
+import { getUserID } from "./../services";
+
 
 
 let NavControll = connect((state) => {
@@ -145,6 +147,7 @@ class EventList extends Component {
     }
     render() {
         let { events, actions, isParticipating, isFetching } = this.props;
+        let UID = getUserID();
         return (
             <Loadable
                 active={isParticipating || isFetching}
@@ -156,7 +159,7 @@ class EventList extends Component {
                         <NavControll> </NavControll>
                     </Col>
 
-                    {events.map((cardData, key) => {
+                    {events.filter((data) => (data.uid === UID || isNull(data.uid))).map((cardData, key) => {
                         return (
                             <Col key={key} xs={12} sm={4}>
                                 <Card>
@@ -169,7 +172,12 @@ class EventList extends Component {
                                         {isAuthentic(['admin']) ? < Button onClick={() => { actions.deleteEvent(cardData.eid) }} className="float-left">Delete</Button> : ""}
                                         {isAuthentic(['admin']) ? < Button onClick={() => { actions.eventFormToggle({ type: "Update", data: cardData }) }} className="float-left">Edit</Button> : ""}
                                         {isAuthentic(['admin']) ? < Button onClick={() => { history.push("/user/eventmanager/" + cardData.eid) }} className="float-left">Manage</Button> : ""}
-                                        <Button disabled={!isNull(cardData.uid)} onClick={() => { actions.participateEvents(cardData.eid) }} color="primary" className="float-right">Participate</Button>
+
+                                        {isNull(cardData.uid) ?
+                                            <Button onClick={() => { actions.participateEvents(cardData.eid) }} color="primary" className="float-right">Participate</Button>
+                                            :
+                                            <Button onClick={() => { actions.undoparticipateEvents(cardData.eid) }} color="danger" className="float-right">Remove Me</Button>
+                                        }
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -198,6 +206,7 @@ export default connect(mapStateToProps,
                 fetchEvents: events.fetchEvents,
                 deleteEvent: events.deleteEvent,
                 participateEvents: events.participateEvents,
+                undoparticipateEvents: events.undoparticipateEvents,
                 eventFormToggle: popupToggleActions.eventFormToggle
             }, dispatch)
         }

@@ -1,6 +1,7 @@
 import { createResource } from 'redux-rest-resource';
 import config from "./../config/config.json";
 import { getAuthHeader, getUserID, getProfileData } from "./../services/AuthService";
+// import { store } from "./../helpers/Store";
 
 const { types, actions, rootReducer } = createResource({
     name: 'events',
@@ -12,7 +13,8 @@ const { types, actions, rootReducer } = createResource({
         update: { method: 'POST' },
         delete: { method: 'POST' },
         fetch: { method: 'POST' },
-        participate: { method: 'POST' }
+        participate: { method: 'POST' },
+        undoparticipate: { method: 'POST' }
     }
 });
 
@@ -77,12 +79,44 @@ let participateEvents = (eventid) => {
                             {
                                 "uid": UID,
                                 "eid": eventid,
+                                "eiduid": '' + eventid + UID,
                                 "confirmed": "0"
                             }
                         ],
                         "returning": [
                             "eid"
                         ]
+                    }
+                }
+            ));
+            // dispatch(fetchEvents());
+        }
+    }
+}
+
+let undoparticipateEvents = (eventid) => {
+    return (dispatch) => {
+        let UID = getUserID();
+        if (UID) {
+            dispatch(actions.undoparticipateEvents(
+                {
+                    "type": "delete",
+                    "args": {
+                        "table": "participants",
+                        "where": {
+                            "$and": [
+                                {
+                                    "uid": {
+                                        "$eq": UID
+                                    }
+                                },
+                                {
+                                    "eid": {
+                                        "$eq": eventid
+                                    }
+                                }
+                            ]
+                        }
                     }
                 }
             ));
@@ -159,5 +193,6 @@ export const events = {
     participateEvents,
     getEvent,
     updateEvents,
-    deleteEvent
+    deleteEvent,
+    undoparticipateEvents
 };

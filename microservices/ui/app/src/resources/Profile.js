@@ -2,6 +2,7 @@ import { createResource } from 'redux-rest-resource';
 import config from "./../config/config.json";
 import { getAuthHeader, getUserID, getProfileData, getLoginProivderData } from "./../services/AuthService";
 import graph from "fb-react-sdk";
+import isObject from "lodash/isObject";
 
 const { types, actions, rootReducer } = createResource({
     name: 'profile',
@@ -36,6 +37,10 @@ let createProfile = (fromData) => {
                     createData(dispatch, ProfileData);
                 });
             } else {
+                if (isObject(fromData)) {
+                    ProfileData.name = fromData.name;
+                    ProfileData.email = fromData.email;
+                }
                 createData(dispatch, ProfileData);
             }
         }

@@ -9,8 +9,9 @@ import { connect } from "react-redux";
 
 import { userActions, alertActions } from "./../actions";
 import { history } from './../helpers';
-import { FacebookLoginButton, GoogleLoginButton } from "./../components/SocialLoginButton";
 import Loadable from "react-loading-overlay";
+import SocialFooter from "./../components/SocialFooter";
+
 
 class Login extends Component {
     constructor(props) {
@@ -45,14 +46,6 @@ class Login extends Component {
         }
     }
 
-    handleError = () => {
-        this.props.dispatch(userActions.failureLogin());
-    }
-
-    handleLogin = () => {
-        this.props.dispatch(userActions.requestLogin());
-    }
-
     render() {
         let { props } = this;
         return (
@@ -69,7 +62,10 @@ class Login extends Component {
                                     <CardBody>
                                         <h1>Login</h1>
                                         <p className="text-muted">Sign In / Sign Up to your account</p>
-                                        {/* <form onSubmit={this.handleSubmit}>
+                                        <SocialFooter />
+                                    </CardBody>
+                                    <CardFooter className="p-4" >
+                                        <form onSubmit={this.handleSubmit}>
                                             <InputGroup className="mb-3">
                                                 <div className="input-group-prepend">
                                                     <span className="input-group-text">@</span>
@@ -89,36 +85,17 @@ class Login extends Component {
                                                     <Button color="primary" className="px-4">Login</Button>
                                                 </Col>
                                                 <Col xs="6" className="text-right">
-                                                    <Button color="link" className="px-0">Forgot password?</Button>
+                                                    {/* <Button color="link" className="px-0">Forgot password?</Button> */}
                                                 </Col>
                                             </Row>
                                             <InputGroup className="mb-4">
                                             </InputGroup>
-                                        </form> */}
+                                        </form>
 
-                                        {/* <Button color="success" onClick={() => { this.props.history.push("/public/register"); }} block>Register</Button> */}
-                                        <Row>
-                                            <Col xs="12" sm="12">
-                                                <div style={{ paddingBottom: "12px" }} onClick={this.handleLogin}>
-                                                    <FacebookLoginButton handleResponse={(data) => {
-                                                        this.props.dispatch(userActions.loginFacebook(data));
-                                                    }} handleError={this.handleError} />
-                                                </div>
-                                            </Col>
-                                            <Col xs="12" sm="12">
-                                                <div onClick={this.handleLogin}>
-                                                    <GoogleLoginButton
-                                                        handleResponse={(data) => {
-                                                            this.props.dispatch(userActions.loginGoogle(data));
-                                                        }}
-                                                        handleError={this.handleError} />
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </CardBody>
-                                    <CardFooter className="p-4">
+                                        <Button color="success" onClick={() => { this.props.history.push("/public/register"); }} block>Register</Button>
 
                                     </CardFooter>
+
                                 </Card>
                             </Loadable>
                         </Col>

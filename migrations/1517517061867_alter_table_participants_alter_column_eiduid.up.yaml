@@ -1,0 +1,9 @@
+- args:
+    sql: ALTER TABLE "participants" ALTER COLUMN "eiduid" TYPE text;
+  type: run_sql
+- args:
+    sql: ALTER TABLE "participants" ALTER COLUMN "eiduid" DROP DEFAULT;
+  type: run_sql
+- args:
+    sql: ALTER TABLE "participants" ALTER COLUMN "eiduid" SET NOT NULL;
+  type: run_sql
