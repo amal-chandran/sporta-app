@@ -20,6 +20,10 @@ import UserImage from "../img/6.jpg";
 import SubNav from "../components/SubNav";
 import ResponsiveMenuDialog from "../components/ResponsiveMenuDialog";
 import CheckboxList from "../components/CheckboxList";
+import { popupToggleActions } from "./../actions";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { isAuthentic } from "./../helpers/Underscore";
 
 import { Edit, Delete } from 'material-ui-icons';
 
@@ -37,23 +41,42 @@ export default (props) => (
     </div>
 );
 
-let NavControll = () => {
+let NavControll = connect((state) => {
+    let { TESTFORMtogglePopupForm } = state.popupToggle;
+    return {
+        togglePopupForm: TESTFORMtogglePopupForm
+    };
+}, (dispatch) => {
+    return {
+        actions: bindActionCreators({
+            testFormToggle: popupToggleActions.testFormToggle
+        }, dispatch)
+    }
+})((props) => {
     return (
         <SubNav Name="Event Manager">
             <Nav className="ml-auto" navbar>
                 <NavItem>
                     <CreateTest />
+                    {isAuthentic(['admin']) ?
+                        <NavLink onClick={() => { props.actions.testFormToggle({ type: "Create" }) }} className="text-primary" href="#">Create Test</NavLink>
+                        : ""}
                 </NavItem>
                 <NavItem>
-                    <NavLink className="text-primary" href="#">Finalize Event</NavLink>
+                    {isAuthentic(['admin']) ?
+                        <NavLink onClick={() => { props.actions.testFormToggle({ type: "Finalize" }) }} className="text-primary" href="#">Finalize Event</NavLink>
+                        : ""}
                 </NavItem>
                 <NavItem>
+                    {isAuthentic(['admin']) ?
+                        <NavLink onClick={() => { props.actions.testFormToggle({ type: "Create" }) }} className="text-primary" href="#">Manage Coordinator</NavLink>
+                        : ""}
                     <ManageCoordinator />
                 </NavItem>
             </Nav>
         </SubNav>
     );
-}
+});
 
 class TestCards extends Component {
     constructor(props) {
@@ -127,13 +150,13 @@ class TestCards extends Component {
 }
 
 let CreateTest = () => (
-    <ResponsiveMenuDialog Name="Create Test" Title="Create Test">
+    <ResponsiveMenuDialog Title="Create Test">
         <VerticalStepper />
     </ResponsiveMenuDialog>
 );
 
 let ManageCoordinator = () => (
-    <ResponsiveMenuDialog Name="Manage Coordinator" Title="Manage Coordinator">
+    <ResponsiveMenuDialog Title="Manage Coordinator">
         <ManageCoordinatorForm />
     </ResponsiveMenuDialog>
 );

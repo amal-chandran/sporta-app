@@ -1,0 +1,4 @@
+export const popupToggleConstants = {
+    EVENTSFORM: 'POPUPTOGGLE_EVENTSFORM',
+    TESTFORM: 'POPUPTOGGLE_TESTFORM'
+};

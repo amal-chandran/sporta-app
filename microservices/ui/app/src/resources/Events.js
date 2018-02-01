@@ -7,31 +7,57 @@ const { types, actions, rootReducer } = createResource({
     url: config.Query,
     headers: (getState, { actionId, context, contextOpts }) => getAuthHeader(),
     actions: {
-        create: {
-            method: 'POST',
-        },
-        get: {
-            method: 'POST'
-        },
-        fetch: {
-            method: 'POST'
-        },
+        create: { method: 'POST', },
+        get: { method: 'POST' },
+        update: { method: 'POST' },
+        delete: { method: 'POST' },
+        fetch: { method: 'POST' },
         participate: { method: 'POST' }
     }
 });
 
 
-let createEvents = () => {
+let createEvents = (data) => {
     return (dispatch) => {
         let UID = getUserID();
         if (UID) {
             dispatch(actions.createEvents({
-                "type": "select",
+                "type": "insert",
                 "args": {
                     "table": "events",
-                    "columns": [
-                        "*"
+                    "objects": [
+                        {
+                            "name": data.name,
+                            "photo": data.photo,
+                            "discription": data.discription,
+                            "started": "false"
+                        }
                     ]
+                }
+            }));
+        }
+    }
+}
+
+let updateEvents = (data) => {
+    return (dispatch) => {
+        let UID = getUserID();
+        if (UID) {
+            dispatch(actions.updateEvents({
+                "type": "update",
+                "args": {
+                    "table": "events",
+                    "where": {
+                        "eid": {
+                            "$eq": data.eid
+                        }
+                    },
+                    "$set": {
+                        "name": data.name,
+                        "photo": data.photo,
+                        "discription": data.discription,
+                        "started": data.started
+                    }
                 }
             }));
         }
@@ -82,20 +108,20 @@ let fetchEvents = () => {
     }
 }
 
-let getProfile = () => {
+let getEvent = (eid) => {
     return (dispatch) => {
         let UID = getUserID();
         if (UID) {
-            dispatch(actions.getProfile({
+            dispatch(actions.getEvent({
                 "type": "select",
                 "args": {
-                    "table": "profile",
+                    "table": "event_participants",
                     "columns": [
                         "*"
                     ],
                     "where": {
-                        "uid": {
-                            "$eq": UID
+                        "eid": {
+                            "$eq": eid
                         }
                     }
                 }
@@ -104,11 +130,34 @@ let getProfile = () => {
     }
 }
 
+let deleteEvent = (eid) => {
+    return (dispatch) => {
+        let UID = getUserID();
+        if (UID) {
+            dispatch(actions.deleteEvents({
+                "type": "delete",
+                "args": {
+                    "table": "events",
+                    "where": {
+                        "eid": {
+                            "$eq": eid
+                        }
+                    }
+                }
+            }));
+        }
+    }
+}
+
+
 export const events = {
     "eventsReducer": rootReducer,
     "eventsTypes": types,
     "eventsActions": actions,
     createEvents,
     fetchEvents,
-    participateEvents
+    participateEvents,
+    getEvent,
+    updateEvents,
+    deleteEvent
 };

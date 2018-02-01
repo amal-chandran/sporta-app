@@ -21,6 +21,10 @@ export default {
     {
       name: 'Notifications',
       url: '/user/notifications',
+    },
+    {
+      name: 'Settings',
+      url: '/user/settings',
     }
     // {
     //   name: 'Settings',

@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import { appusers } from "./../resources";
 import isEmpty from "lodash/isEmpty";
 
-
 class EventList extends Component {
     componentWillMount() {
         this.props.actions.fetchAppusers();

@@ -67,9 +67,9 @@ class Login extends Component {
                             >
                                 <Card>
                                     <CardBody>
-                                        <form onSubmit={this.handleSubmit}>
-                                            <h1>Login</h1>
-                                            <p className="text-muted">Sign In to your account</p>
+                                        <h1>Login</h1>
+                                        <p className="text-muted">Sign In / Sign Up to your account</p>
+                                        {/* <form onSubmit={this.handleSubmit}>
                                             <InputGroup className="mb-3">
                                                 <div className="input-group-prepend">
                                                     <span className="input-group-text">@</span>
@@ -94,20 +94,18 @@ class Login extends Component {
                                             </Row>
                                             <InputGroup className="mb-4">
                                             </InputGroup>
-                                        </form>
+                                        </form> */}
 
-                                        <Button color="success" onClick={() => { this.props.history.push("/public/register"); }} block>Register</Button>
-                                    </CardBody>
-                                    <CardFooter className="p-4">
+                                        {/* <Button color="success" onClick={() => { this.props.history.push("/public/register"); }} block>Register</Button> */}
                                         <Row>
-                                            <Col xs="12" sm="6">
-                                                <div onClick={this.handleLogin}>
+                                            <Col xs="12" sm="12">
+                                                <div style={{ paddingBottom: "12px" }} onClick={this.handleLogin}>
                                                     <FacebookLoginButton handleResponse={(data) => {
                                                         this.props.dispatch(userActions.loginFacebook(data));
                                                     }} handleError={this.handleError} />
                                                 </div>
                                             </Col>
-                                            <Col xs="12" sm="6">
+                                            <Col xs="12" sm="12">
                                                 <div onClick={this.handleLogin}>
                                                     <GoogleLoginButton
                                                         handleResponse={(data) => {
@@ -117,6 +115,9 @@ class Login extends Component {
                                                 </div>
                                             </Col>
                                         </Row>
+                                    </CardBody>
+                                    <CardFooter className="p-4">
+
                                     </CardFooter>
                                 </Card>
                             </Loadable>

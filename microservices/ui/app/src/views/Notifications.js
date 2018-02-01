@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import { notifications } from "./../resources";
 import isEmpty from "lodash/isEmpty";
 
-
 class EventList extends Component {
     componentWillMount() {
         this.props.actions.fetchNotifications();

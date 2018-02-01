@@ -13,6 +13,9 @@ const { types, actions, rootReducer } = createResource({
         },
         get: {
             method: 'POST'
+        },
+        update: {
+            method: 'POST'
         }
     }
 });
@@ -29,6 +32,7 @@ let createProfile = (fromData) => {
                 graph.setAccessToken(getLoginProivderData()._token.accessToken);
                 graph.get("me?fields=id,name,picture.type(large),cover,email,gender", function (err, res) {
                     ProfileData.res = res;
+                    ProfileData.profilepic = res.picture.data.url;
                     createData(dispatch, ProfileData);
                 });
             } else {
@@ -46,10 +50,12 @@ function createData(dispatch, ProfileData) {
             "objects": [
                 {
                     "uid": ProfileData.UID,
-                    "verified": "false",
                     "photo": ProfileData.profilepic,
                     "name": ProfileData.name,
-                    "other": ProfileData.res
+                    "other": ProfileData.res,
+                    "email": ProfileData.email,
+                    "collegeid": "0",
+                    "phone": ""
                 }
             ],
             "returning": [
@@ -81,10 +87,37 @@ let getProfile = () => {
     }
 }
 
+let updateProfile = (ProfileData) => {
+    return (dispatch) => {
+        let UID = getUserID();
+        if (UID) {
+            dispatch(actions.updateProfile(
+                {
+                    "type": "update",
+                    "args": {
+                        "table": "profile",
+                        "where": {
+                            "uid": {
+                                "$eq": UID
+                            }
+                        },
+                        "$set": {
+                            "name": ProfileData.name,
+                            "collegeid": ProfileData.collegeid,
+                            "email": ProfileData.email,
+                            "phone": ProfileData.phone
+                        }
+                    }
+                }));
+        }
+    }
+}
+
 export const profile = {
     "profileReducer": rootReducer,
     "profileTypes": types,
     "profileActions": actions,
     "createProfile": createProfile,
-    "getProfile": getProfile
+    "getProfile": getProfile,
+    updateProfile
 };

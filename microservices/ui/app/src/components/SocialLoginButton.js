@@ -25,7 +25,7 @@ export const FacebookLoginButton = (props) => (
         appId={config.FacebookAppID}
         onLoginSuccess={props.handleResponse}
         onLoginFailure={props.handleError}
-    > <span>Facebook</span></FacebootLogin >
+    > <span>Login with Facebook</span></FacebootLogin >
 );
 
 export const GoogleLoginButton = (props) => (
@@ -34,5 +34,5 @@ export const GoogleLoginButton = (props) => (
         appId={config.GoogleAppID}
         onLoginSuccess={props.handleResponse}
         onLoginFailure={props.handleError}
-    ><span>Google</span></GoogleLogin>
+    ><span>Login with Google</span></GoogleLogin>
 );

@@ -1,0 +1,7 @@
+- args:
+    permission:
+      columns: []
+      filter: {}
+    role: user
+    table: events
+  type: create_update_permission

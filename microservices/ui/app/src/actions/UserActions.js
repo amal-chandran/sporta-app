@@ -75,6 +75,7 @@ function loginFacebook(data) {
 
                 if (result.extra_info.new_user) {
                     dispatch(profile.createProfile("loginFacebook"));
+                    history.push(config.Redirect.newLogin);
                 }
                 dispatch(profile.getProfile());
 
@@ -118,6 +119,7 @@ function loginGoogle(data) {
 
                 if (result.extra_info.new_user) {
                     dispatch(profile.createProfile("loginGoogle"));
+                    history.push(config.Redirect.newLogin);
                 }
                 dispatch(profile.getProfile());
 
