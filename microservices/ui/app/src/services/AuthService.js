@@ -1,3 +1,5 @@
+import isEmpty from "lodash/isEmpty";
+
 export let getAuthData = () => {
     return JSON.parse(localStorage.getItem('user'));
 }
@@ -19,9 +21,17 @@ export let getLoginProivderData = () => {
 
 export let getProfileData = () => {
     let Data = getLoginProivderData();
-    return {
-        "name": Data._profile.name,
-        "email": Data._profile.email,
-        "profilepic": Data._profile.profilePicURL
+    if (isEmpty(Data)) {
+        return {
+            "name": "",
+            "email": "",
+            "profilepic": ""
+        }
+    } else {
+        return {
+            "name": Data._profile.name,
+            "email": Data._profile.email,
+            "profilepic": Data._profile.profilePicURL
+        }
     }
 };

@@ -1,17 +1,18 @@
 import { userConstants } from '../constants';
-import { userService } from '../services';
+import { userService, getAuthHeader } from '../services';
 import { alertActions } from './';
 import { history } from '../helpers';
 
 import config from "./../config/config.json";
 import "whatwg-fetch";
 import { profile } from "./../resources";
+import { fetch } from 'redux-rest-resource';
 
 export const userActions = {
     login,
     logout,
     register, loginFacebook, loginGoogle,
-    failureLogin, requestLogin
+    failureLogin, requestLogin, checkLogin
 };
 
 function requestLogin() { return { type: userConstants.LOGIN_REQUEST } }
@@ -69,22 +70,26 @@ function loginFacebook(data) {
                 return response.json();
             })
             .then(function (result) {
-                localStorage.setItem('userAuth', JSON.stringify(data));
-                localStorage.setItem('user', JSON.stringify(result));
-                dispatch(successLogin(result));
-
-                if (result.extra_info.new_user) {
-                    dispatch(profile.createProfile("loginFacebook"));
-                    history.push(config.Redirect.newLogin);
-                }
-                dispatch(profile.getProfile());
-
-                history.push(config.Redirect.Login);
+                LoginSuccesCommit(data, result, 'loginFacebook', dispatch);
             })
             .catch(function (error) {
                 dispatch(failureLogin(error));
             });
     };
+}
+
+function LoginSuccesCommit(data, result, loginAuth, dispatch) {
+    localStorage.setItem('userAuth', JSON.stringify(data));
+    localStorage.setItem('user', JSON.stringify(result));
+    dispatch(successLogin(result));
+
+    if (result.extra_info.new_user) {
+        dispatch(profile.createProfile(loginAuth));
+        history.push(config.Redirect.newLogin);
+    }
+    dispatch(profile.getProfile());
+
+    history.push(config.Redirect.Login);
 }
 
 function loginGoogle(data) {
@@ -113,17 +118,7 @@ function loginGoogle(data) {
                 return response.json();
             })
             .then(function (result) {
-                localStorage.setItem('userAuth', JSON.stringify(data));
-                localStorage.setItem('user', JSON.stringify(result));
-                dispatch(successLogin(result));
-
-                if (result.extra_info.new_user) {
-                    dispatch(profile.createProfile("loginGoogle"));
-                    history.push(config.Redirect.newLogin);
-                }
-                dispatch(profile.getProfile());
-
-                history.push(config.Redirect.Login);
+                LoginSuccesCommit(data, result, 'loginGoogle', dispatch);
             })
             .catch(function (error) {
                 dispatch(failureLogin(error));
@@ -131,9 +126,57 @@ function loginGoogle(data) {
     };
 }
 
+
+function checkLogin() {
+    return (dispatch) => {
+        var url = "https://auth." + config.Cluster + ".hasura-app.io/v1/user/info";
+        //  "https://auth." + config.Cluster + ".hasura-app.io/v1/user/info";
+
+        var requestOptions = {
+            "method": "GET",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        };
+
+        // var body = {};
+
+        // requestOptions.body = JSON.stringify(body);
+
+        fetch(url, requestOptions).then(function (response) {
+            return response.json();
+        }).then(function (result) {
+            LoginSuccesCommit({}, result, '', dispatch);
+        }).catch(function (error) {
+            // dispatch(failureLogin(error));
+        });
+    };
+}
+
 function logout() {
     userService.logout();
-    return { type: userConstants.LOGOUT };
+    if (localStorage.getItem('user')) {
+        return (dispatch) => {
+            var url = "https://auth." + config.Cluster + ".hasura-app.io/v1/user/logout";
+
+            var requestOptions = {
+                "method": "POST",
+                "headers": getAuthHeader()
+            };
+
+            var body = {};
+
+            requestOptions.body = JSON.stringify(body);
+
+            fetch(url, requestOptions).then(() => {
+                localStorage.removeItem('user');
+                localStorage.removeItem('userAuth');
+                dispatch({ type: userConstants.LOGOUT });
+            });
+        }
+    } else {
+        return { type: userConstants.LOGOUT };
+    }
 }
 
 function register(user) {
