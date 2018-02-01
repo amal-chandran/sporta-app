@@ -17,7 +17,10 @@ class App extends Component {
         <Router history={history}>
           <div>
             <AlertSnackbar />
-            <Route exact path="/" name="Index" render={() => { store.dispatch(userActions.checkLogin()); }
+            <Route exact path="/" name="Index" render={() => {
+              store.dispatch(userActions.checkLogin());
+              return (<div></div>);
+            }
               // (<Redirect to={"/public/login"} />)
             } />
             <Route path={"/public"} name="Public" component={Public} />
