@@ -105,9 +105,9 @@ class Register extends React.Component {
                                     </form>
 
                                     <Button color="primary" onClick={() => { this.props.history.push("/public/login"); }} block>Login</Button>
-
+                                    <br />
+                                    <SocialFooter />
                                 </CardBody>
-                                <SocialFooter />
 
                             </Card>
                         </Col>

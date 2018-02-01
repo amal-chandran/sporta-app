@@ -59,7 +59,7 @@ function createData(dispatch, ProfileData) {
                     "name": ProfileData.name,
                     "other": ProfileData.res,
                     "email": ProfileData.email,
-                    "collegeid": "0",
+                    "collegeid": "",
                     "phone": ""
                 }
             ],

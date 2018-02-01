@@ -32,7 +32,7 @@ let NavControll = connect((state) => {
     }
 })((props) => {
     return (
-        <SubNav Name="Event">
+        <SubNav Name="Users">
             <Nav className="ml-auto" navbar>
                 <NavItem>
                     <EventFormPopup />
@@ -163,13 +163,22 @@ class EventList extends Component {
                         return (
                             <Col key={key} xs="12" lg="3">
                                 <Card>
-                                    <CardBody>
-                                        <CardTitle>{cardData.name}</CardTitle>
-                                    </CardBody>
-                                    <img width="100%" src={cardData.photo} alt="Card image cap" />
-                                    <CardBody>
-                                    </CardBody>
+                                         <CardImg top width="100%" src={cardData.photo} alt="Card image cap" />
+        <CardBody>
+          <CardTitle>{cardData.name}</CardTitle>
+          <CardText>
+                    {cardData.email}<br/>
+                                    {cardData.collegeid}<br/>
+                                    {cardData.phone}<br/>
+              </CardText>
+           {
+                                            !cardData.verified?
+                                        <Button onClick={()=>{this.props.actions.setactiveAppusers(cardData.pid)}}>Verify</Button>
+                                        :""
+                                    }
+        </CardBody>
                                 </Card>
+                                
                             </Col>
                         );
                     })}
@@ -187,13 +196,12 @@ let mapStateToProps = (state) => {
         appusers: items
     }
 };
-
-
 export default connect(mapStateToProps,
     (dispatch) => {
         return {
             actions: bindActionCreators({
                 fetchAppusers: appusers.fetchAppusers,
+                setactiveAppusers: appusers.setactiveAppusers,
             }, dispatch)
         }
     })(EventList);

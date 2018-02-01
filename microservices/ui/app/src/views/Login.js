@@ -4,7 +4,7 @@ import {
     InputGroup, Input, Button, Container
 } from "reactstrap";
 
-import { NavLink as RsNavLink, withRouter } from 'react-router-dom';
+import { NavLink as RsNavLink, withRouter, Route } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import { userActions, alertActions } from "./../actions";
@@ -64,37 +64,7 @@ class Login extends Component {
                                         <p className="text-muted">Sign In / Sign Up to your account</p>
                                         <SocialFooter />
                                     </CardBody>
-                                    <CardFooter className="p-4" >
-                                        <form onSubmit={this.handleSubmit}>
-                                            <InputGroup className="mb-3">
-                                                <div className="input-group-prepend">
-                                                    <span className="input-group-text">@</span>
-                                                </div>
-                                                <Input type="text" name="username" placeholder="Username" onChange={this.handleChange} />
-                                            </InputGroup>
-                                            <InputGroup className="mb-4">
-                                                <div className="input-group-prepend">
-                                                    <span className="input-group-text">
-                                                        <i className="icon-lock"></i>
-                                                    </span>
-                                                </div>
-                                                <Input type="password" name="password" placeholder="Password" onChange={this.handleChange} />
-                                            </InputGroup>
-                                            <Row>
-                                                <Col xs="6">
-                                                    <Button color="primary" className="px-4">Login</Button>
-                                                </Col>
-                                                <Col xs="6" className="text-right">
-                                                    {/* <Button color="link" className="px-0">Forgot password?</Button> */}
-                                                </Col>
-                                            </Row>
-                                            <InputGroup className="mb-4">
-                                            </InputGroup>
-                                        </form>
-
-                                        <Button color="success" onClick={() => { this.props.history.push("/public/register"); }} block>Register</Button>
-
-                                    </CardFooter>
+                                    <Route path={props.match.url + "/username"} name="Login" component={Footer} />
 
                                 </Card>
                             </Loadable>
@@ -105,6 +75,41 @@ class Login extends Component {
         );
     }
 }
+
+let Footer = () => (
+
+    <CardFooter className="p-4" >
+        <form onSubmit={this.handleSubmit}>
+            <InputGroup className="mb-3">
+                <div className="input-group-prepend">
+                    <span className="input-group-text">@</span>
+                </div>
+                <Input type="text" name="username" placeholder="Username" onChange={this.handleChange} />
+            </InputGroup>
+            <InputGroup className="mb-4">
+                <div className="input-group-prepend">
+                    <span className="input-group-text">
+                        <i className="icon-lock"></i>
+                    </span>
+                </div>
+                <Input type="password" name="password" placeholder="Password" onChange={this.handleChange} />
+            </InputGroup>
+            <Row>
+                <Col xs="6">
+                    <Button color="primary" className="px-4">Login</Button>
+                </Col>
+                <Col xs="6" className="text-right">
+                    {/* <Button color="link" className="px-0">Forgot password?</Button> */}
+                </Col>
+            </Row>
+            <InputGroup className="mb-4">
+            </InputGroup>
+        </form>
+
+        <Button color="success" onClick={() => { history.push("/public/register"); }} block>Register</Button>
+
+    </CardFooter>
+)
 
 function mapStateToProps(state) {
     const { loggingIn } = state.authentication;

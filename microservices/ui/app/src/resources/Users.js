@@ -16,6 +16,9 @@ const { types, actions, rootReducer } = createResource({
         },
         fetch: {
             method: 'POST'
+        },
+        setactive: {
+            method: 'POST'
         }
     }
 });
@@ -37,9 +40,33 @@ let fetchAppusers = () => {
     }
 }
 
+let setactiveAppusers = (pid) => {
+    console.log(pid);
+    return (dispatch) => {
+        let UID = getUserID();
+        if (UID) {
+            dispatch(actions.setactiveAppusers({
+                "type": "update",
+                "args": {
+                    "table": "profile",
+                    "where": {
+                        "pid": {
+                            "$eq": pid
+                        }
+                    },
+                    "$set": {
+                        "verified": "true"
+                    }
+                }
+            }));
+        }
+    }
+}
+
 export const appusers = {
     "appusersReducer": rootReducer,
     "appusersTypes": types,
     "appusersActions": actions,
-    fetchAppusers
+    fetchAppusers,
+    setactiveAppusers
 };
