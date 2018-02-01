@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "browser-cookies": "^1.2.0",
     "fb-react-sdk": "^1.0.4",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",

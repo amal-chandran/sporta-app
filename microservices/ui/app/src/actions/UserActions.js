@@ -7,6 +7,7 @@ import config from "./../config/config.json";
 import "whatwg-fetch";
 import { profile } from "./../resources";
 import { fetch } from 'redux-rest-resource';
+import cookies from "browser-cookies";
 
 export const userActions = {
     login,
@@ -135,10 +136,12 @@ function checkLogin() {
         var requestOptions = {
             "method": "GET",
             "headers": {
-                "Content-Type": "application/json"
-            }
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + cookies.get(config.Cluster)
+            },
+            credentials: 'include'
         };
-
+        console.log(cookies.get(config.Cluster));
         // var body = {};
 
         // requestOptions.body = JSON.stringify(body);
