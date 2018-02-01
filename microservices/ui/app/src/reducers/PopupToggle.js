@@ -4,7 +4,9 @@ export function popupToggle(state = {
     EVENTSFORMtogglePopupForm: false,
     EVENTSFORMdata: {},
     TESTFORMtogglePopupForm: false,
-    TESTFORMdata: {}
+    TESTFORMdata: {},
+    USERFORMtogglePopupForm: false,
+    USERFORMdata: {}
 }, action) {
     switch (action.type) {
         case popupToggleConstants.EVENTSFORM:
@@ -18,6 +20,12 @@ export function popupToggle(state = {
                 ...state,
                 TESTFORMtogglePopupForm: !state.TESTFORMtogglePopupForm,
                 TESTFORMdata: action.data
+            };
+        case popupToggleConstants.USERFORM:
+            return {
+                ...state,
+                USERFORMtogglePopupForm: !state.USERFORMtogglePopupForm,
+                USERFORMdata: action.data
             };
         default:
             return state
