@@ -8,6 +8,7 @@ import AlertSnackbar from "./components/AlertSnackbar";
 // import AuthRoute from "./components/AuthRoute";
 
 // configureFakeBackend();
+import { userActions } from "./actions";
 
 class App extends Component {
   render() {
@@ -16,7 +17,9 @@ class App extends Component {
         <Router history={history}>
           <div>
             <AlertSnackbar />
-            <Route exact path="/" name="Index" render={() => (<Redirect to={"/public/login"} />)} />
+            <Route exact path="/" name="Index" render={() => { store.dispatch(userActions.checkLogin()); }
+              // (<Redirect to={"/public/login"} />)
+            } />
             <Route path={"/public"} name="Public" component={Public} />
             <Route path={"/user"} name="User" component={Normal}></Route>
           </div>

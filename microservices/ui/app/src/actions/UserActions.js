@@ -151,7 +151,7 @@ function checkLogin() {
         }).then(function (result) {
             LoginSuccesCommit({}, result, '', dispatch);
         }).catch(function (error) {
-            // dispatch(failureLogin(error));
+            history.push(config.Redirect.LoginPage);
         });
     };
 }

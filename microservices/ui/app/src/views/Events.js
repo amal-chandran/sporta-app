@@ -16,6 +16,7 @@ import ResponsiveMenuDialog from "../components/ResponsiveMenuDialog";
 import Loadable from "react-loading-overlay";
 import { isAuthentic } from "./../helpers/Underscore";
 import isEmpty from "lodash/isEmpty";
+import isNull from "lodash/isNull";
 
 
 let NavControll = connect((state) => {
@@ -155,23 +156,25 @@ class EventList extends Component {
                         <NavControll> </NavControll>
                     </Col>
 
-                    {events.map((cardData, key) => (
-                        <Col key={key} xs={12} sm={4}>
-                            <Card>
-                                <CardImg top width="100%" src={cardData.photo} alt={cardData.name} />
-                                <CardBody>
-                                    <CardTitle>{cardData.name}</CardTitle>
-                                    <CardText>{cardData.discription}</CardText>
-                                    <div className="clearfix">
-                                    </div >
-                                    {isAuthentic(['admin']) ? < Button onClick={() => { actions.deleteEvent(cardData.eid) }} className="float-left">Delete</Button> : ""}
-                                    {isAuthentic(['admin']) ? < Button onClick={() => { actions.eventFormToggle({ type: "Update", data: cardData }) }} className="float-left">Edit</Button> : ""}
-                                    {isAuthentic(['admin']) ? < Button onClick={() => { history.push("/user/eventmanager/" + cardData.eid) }} className="float-left">Manage</Button> : ""}
-                                    <Button disabled={cardData.uid ? true : false} onClick={() => { actions.participateEvents(cardData.eid) }} color="primary" className="float-right">Participate</Button>
-                                </CardBody>
-                            </Card>
-                        </Col>
-                    ))}
+                    {events.map((cardData, key) => {
+                        return (
+                            <Col key={key} xs={12} sm={4}>
+                                <Card>
+                                    <CardImg top width="100%" src={cardData.photo} alt={cardData.name} />
+                                    <CardBody>
+                                        <CardTitle>{cardData.name}</CardTitle>
+                                        <CardText>{cardData.discription}</CardText>
+                                        <div className="clearfix">
+                                        </div >
+                                        {isAuthentic(['admin']) ? < Button onClick={() => { actions.deleteEvent(cardData.eid) }} className="float-left">Delete</Button> : ""}
+                                        {isAuthentic(['admin']) ? < Button onClick={() => { actions.eventFormToggle({ type: "Update", data: cardData }) }} className="float-left">Edit</Button> : ""}
+                                        {isAuthentic(['admin']) ? < Button onClick={() => { history.push("/user/eventmanager/" + cardData.eid) }} className="float-left">Manage</Button> : ""}
+                                        <Button disabled={!isNull(cardData.uid)} onClick={() => { actions.participateEvents(cardData.eid) }} color="primary" className="float-right">Participate</Button>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        );
+                    })}
 
                 </Row>
             </Loadable>

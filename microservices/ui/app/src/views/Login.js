@@ -53,10 +53,6 @@ class Login extends Component {
         this.props.dispatch(userActions.requestLogin());
     }
 
-    componentWillMount() {
-        this.props.dispatch(userActions.checkLogin());
-    }
-
     render() {
         let { props } = this;
         return (
