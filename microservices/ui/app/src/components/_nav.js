@@ -19,12 +19,9 @@ export default {
       url: '/user/scoreboard',
     },
     {
-      name: 'Notifications',
-      url: '/user/notifications',
-    },
-    {
       name: 'Profile',
       url: '/user/settings',
+      main: true
     }
     // {
     //   name: 'Settings',

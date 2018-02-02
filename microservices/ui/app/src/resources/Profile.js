@@ -40,6 +40,7 @@ let createProfile = (fromData) => {
                 if (isObject(fromData)) {
                     ProfileData.name = fromData.name;
                     ProfileData.email = fromData.email;
+                    ProfileData.profilepic = "./images/people.png";
                 }
                 createData(dispatch, ProfileData);
             }

@@ -121,7 +121,7 @@ class EventList extends Component {
             <Row>
                 <Col>
                     <Card>
-                        <CardImg top width="100%" src={!isEmpty(user) ? user[0].photo : ""} alt="Card image cap" />
+                        <CardImg top width="100%" src={!isEmpty(user) ? user[0].photo: "./images/people.png"} alt="Card image cap" />
                     </Card>
                 </Col>
                 <Col>

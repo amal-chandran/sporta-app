@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import { NavLink as RsNavLink } from 'react-router-dom';
 
-import avatars from "../img/6.jpg";
+// import avatars from "../img/people.png";
 
 class HeaderDropdown extends Component {
 
@@ -29,19 +29,22 @@ class HeaderDropdown extends Component {
     });
   }
 
-
-
   render() {
     const { profile, ...attributes } = this.props;
     return (
       <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle nav>
-          <img src={!isEmpty(profile.item) ? profile.item[0].photo : avatars} className="img-avatar" alt="avatar" />
+          <img src={!isEmpty(profile.item) ? profile.item[0].photo : './images/people.png'} className="img-avatar" alt="avatar" />
         </DropdownToggle>
         <DropdownMenu right>
           <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
-          <DropdownItem><i className="fa fa-user"></i> Notifications</DropdownItem>
-          <DropdownItem><i className="fa fa-user"></i> Profile</DropdownItem>
+          {/* <DropdownItem><i className="fa fa-user"></i> Notifications</DropdownItem> */}
+          <DropdownItem>
+            <RsNavLink className="nav-link" to={'/user/sporta'}><i className="fa fa-user"></i> Sporta</RsNavLink>
+          </DropdownItem>
+          <DropdownItem>
+            <RsNavLink className="nav-link" to={'/user/settings'}><i className="fa fa-user"></i> Profile</RsNavLink>
+          </DropdownItem>
           <DropdownItem>
             <RsNavLink className="nav-link" to={'/public/login'}><i className="fa fa-lock"></i> Logout</RsNavLink>
           </DropdownItem>

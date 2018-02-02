@@ -247,13 +247,9 @@ function register(user) {
                 localStorage.setItem('user', JSON.stringify(result));
                 dispatch(successLogin(result));
 
-                if (result.extra_info.new_user) {
-                    user.name = user.firstName + " " + user.lastName;
-                    dispatch(profile.createProfile(user));
-                    history.push(config.Redirect.newLogin);
-                }
+                dispatch(profile.createProfile(user));
                 dispatch(profile.getProfile());
-                history.push(config.Redirect.Login);
+                history.push(config.Redirect.newLogin);
             })
 
         // userService.register(user)

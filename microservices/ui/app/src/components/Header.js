@@ -11,8 +11,11 @@ import {
   Badge,
   Dropdown, DropdownItem, DropdownMenu, DropdownToggle
 } from 'reactstrap';
+
 import HeaderDropdown from './HeaderDropdown';
 import nav from './_nav';
+import { store } from "./../helpers/Store";
+import { isVerified } from "./../helpers/Underscore";
 
 class Header extends Component {
 
@@ -81,7 +84,8 @@ class Header extends Component {
           {/* <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
             <span className="navbar-toggler-icon"></span>
           </NavbarToggler> */}
-          {this.props.private ?
+          {this.props.private && isVerified() ?
+
             <Nav className="d-md-down-none" navbar>
 
               {
@@ -102,7 +106,6 @@ class Header extends Component {
                       .map((item, key) => (
                         <DropdownItem key={key}>{this.navLink(item, key)}</DropdownItem>)
                       )
-
                   }
                 </DropdownMenu>
               </Dropdown>
@@ -110,9 +113,9 @@ class Header extends Component {
             : ""}
           {this.props.private ?
             <Nav className="ml-auto" navbar>
-              <NavItem className="d-md-down-none">
+              {/* <NavItem className="d-md-down-none">
                 <NavLink href="#"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
-              </NavItem>
+              </NavItem> */}
               {/* <NavItem className="d-md-down-none">
               <NavLink href="#"><i className="icon-list"></i></NavLink>
             </NavItem>

@@ -13,7 +13,7 @@ import Settings from "./../views/Settings";
 import EventManager from "./../views/EventManager";
 import Scoreboard from "./../views/Scoreboard";
 import Button from "material-ui/Button/Button";
-import { isAuthentic } from "./../helpers/Underscore";
+import { isAuthentic, isVerified } from "./../helpers/Underscore";
 
 class Normal extends Component {
     componentWillMount() {
@@ -32,14 +32,18 @@ class Normal extends Component {
                             <Container fluid>
                                 <div className="animated fadeIn">
                                     <Switch>
-                                        <Route exact path={match.url} name="Index" render={() => (<Redirect to={match.url + "/sporta"} />)} />
-                                        <Route path={match.url + "/scoreboard"} name="Scoreboard" component={Scoreboard} />
-                                        <Route path={match.url + "/eventmanager/:id"} name="EventManager" component={EventManager} />
-                                        <Route path={match.url + "/users"} name="Users" component={Users} />
                                         <Route path={match.url + "/settings"} name="Settings" component={Settings} />
+                                        <Route exact path={match.url} name="Index" render={() => (<Redirect to={match.url + "/sporta"} />)} />
                                         <Route path={match.url + "/sporta"} name="Sporta" component={Sporta} />
-                                        <Route path={match.url + "/notifications"} name="Notifications" component={Notifications} />
-                                        <Route path={match.url + "/events"} name="Events" component={Events} />
+                                        {isVerified() ?
+                                            <div>
+                                                <Route path={match.url + "/scoreboard"} name="Scoreboard" component={Scoreboard} />
+                                                <Route path={match.url + "/eventmanager/:id"} name="EventManager" component={EventManager} />
+                                                <Route path={match.url + "/users"} name="Users" component={Users} />
+                                                <Route path={match.url + "/notifications"} name="Notifications" component={Notifications} />
+                                                <Route path={match.url + "/events"} name="Events" component={Events} />
+                                            </div>
+                                            : ""}
                                         {/* <Route exact path={match.url} name="Index" component={Sporta} />)} /> */}
                                     </Switch>
                                 </div>
