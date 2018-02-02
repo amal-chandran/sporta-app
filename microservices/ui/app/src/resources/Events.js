@@ -130,13 +130,32 @@ let fetchEvents = () => {
         let UID = getUserID();
         if (UID) {
             dispatch(actions.fetchEventss({
-                "type": "select",
-                "args": {
-                    "table": "event_participants",
-                    "columns": [
-                        "*"
-                    ]
-                }
+                "type": "bulk",
+                "args": [
+                    {
+                        "type": "select",
+                        "args": {
+                            "table": "events",
+                            "columns": [
+                                "*"
+                            ]
+                        }
+                    },
+                    {
+                        "type": "select",
+                        "args": {
+                            "table": "participants",
+                            "columns": [
+                                "eid"
+                            ],
+                            "where": {
+                                "uid": {
+                                    "$eq": UID
+                                }
+                            }
+                        }
+                    }
+                ]
             }));
         }
     }

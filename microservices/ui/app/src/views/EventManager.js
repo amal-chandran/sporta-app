@@ -39,7 +39,7 @@ class EventManagerList extends Component {
                                     <tbody>
                                         {this.props.eventusers.map((data, key) => {
                                             return (
-                                                <tr>
+                                                <tr key={key}>
                                                     <td>{data.name}</td>
                                                 </tr>
                                             );

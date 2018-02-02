@@ -5,6 +5,9 @@ import {
     Nav, NavLink, NavItem, Form, FormGroup, Input, Label
 } from "reactstrap";
 
+import { IconButton } from "material-ui";
+import { Delete, Edit } from "material-ui-icons";
+
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -148,6 +151,10 @@ class EventList extends Component {
     render() {
         let { events, actions, isParticipating, isFetching } = this.props;
         let UID = getUserID();
+        let eventData = [];
+        if (!isEmpty(events)) {
+            eventData = events[1].map((data) => { return data.eid; });
+        }
         return (
             <Loadable
                 active={isParticipating || isFetching}
@@ -159,30 +166,36 @@ class EventList extends Component {
                         <NavControll> </NavControll>
                     </Col>
 
-                    {events.filter((data) => (data.uid === UID || isNull(data.uid))).map((cardData, key) => {
-                        return (
-                            <Col key={key} xs={12} sm={4}>
-                                <Card>
-                                    <CardImg top width="100%" src={cardData.photo} alt={cardData.name} />
-                                    <CardBody>
-                                        <CardTitle>{cardData.name}</CardTitle>
-                                        <CardText>{cardData.discription}</CardText>
-                                        <div className="clearfix">
-                                        </div >
-                                        {isAuthentic(['admin']) ? < Button onClick={() => { actions.deleteEvent(cardData.eid) }} className="float-left">Delete</Button> : ""}
-                                        {isAuthentic(['admin']) ? < Button onClick={() => { actions.eventFormToggle({ type: "Update", data: cardData }) }} className="float-left">Edit</Button> : ""}
-                                        {isAuthentic(['admin']) ? < Button onClick={() => { history.push("/user/eventmanager/" + cardData.eid) }} className="float-left">Manage</Button> : ""}
+                    {!isEmpty(events) ? events[0]
+                        // .filter((data) => (data.uid === UID || isNull(data.uid)))
+                        .map((cardData, key) => {
+                            return (
+                                <Col key={key} xs={12} sm={4}>
+                                    <Card>
+                                        <CardImg top width="100%" src={cardData.photo} alt={cardData.name} />
+                                        <CardBody>
+                                            <CardTitle>{cardData.name}</CardTitle>
+                                            <CardText>{cardData.discription}</CardText>
+                                            <div className="clearfix">
+                                            </div >
 
-                                        {isNull(cardData.uid) ?
-                                            <Button onClick={() => { actions.participateEvents(cardData.eid) }} color="primary" className="float-right">Participate</Button>
-                                            :
-                                            <Button onClick={() => { actions.undoparticipateEvents(cardData.eid) }} color="danger" className="float-right">Remove Me</Button>
-                                        }
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        );
-                    })}
+                                            {isAuthentic(['admin']) ? <IconButton onClick={() => { actions.deleteEvent(cardData.eid) }} color="primary" aria-label=""> <Delete /></IconButton> : ""}
+                                            {isAuthentic(['admin']) ? <IconButton onClick={() => { actions.eventFormToggle({ type: "Update", data: cardData }) }} color="primary" aria-label=""> <Edit /></IconButton> : ""}
+
+                                            {/* {isAuthentic(['admin']) ? < Button onClick={() => { actions.deleteEvent(cardData.eid) }} className="float-left">Delete</Button> : ""} */}
+                                            {/* {isAuthentic(['admin']) ? < Button onClick={() => { actions.eventFormToggle({ type: "Update", data: cardData }) }} className="float-left">Edit</Button> : ""} */}
+                                            {isAuthentic(['admin']) ? < Button onClick={() => { history.push("/user/eventmanager/" + cardData.eid) }} className="float-left">Manage</Button> : ""}
+
+                                            {eventData.indexOf(cardData.eid) === -1 ?
+                                                <Button onClick={() => { actions.participateEvents(cardData.eid) }} color="primary" className="float-right">Participate</Button>
+                                                :
+                                                <Button onClick={() => { actions.undoparticipateEvents(cardData.eid) }} color="danger" className="float-right">Remove Me</Button>
+                                            }
+                                        </CardBody>
+                                    </Card>
+                                </Col>
+                            );
+                        }) : ""}
 
                 </Row>
             </Loadable>
