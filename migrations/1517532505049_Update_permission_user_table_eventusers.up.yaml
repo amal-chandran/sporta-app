@@ -1,0 +1,10 @@
+- args:
+    permission:
+      columns:
+      - name
+      - eid
+      - uid
+      filter: {}
+    role: user
+    table: eventusers
+  type: create_select_permission

@@ -146,10 +146,11 @@ let getEvent = (eid) => {
     return (dispatch) => {
         let UID = getUserID();
         if (UID) {
-            dispatch(actions.getEvent({
+            // console.log("Selecting");
+            dispatch(actions.getEvents({
                 "type": "select",
                 "args": {
-                    "table": "event_participants",
+                    "table": "events",
                     "columns": [
                         "*"
                     ],

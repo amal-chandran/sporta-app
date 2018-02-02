@@ -1,11 +1,25 @@
-import React from "react";
+import React, { Component } from "react";
 import {
     Col, Row, Card, CardBody, CardHeader,
     CardTitle, CardText, Button, Table, Badge
 } from "reactstrap";
+import { events, eventusers } from "./../resources";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
-export default class EventManagerList extends Component {
+
+
+
+class EventManagerList extends Component {
+    componentWillMount() {
+        // console.log(this.props.actions);
+        this.props.actions.getEvent(this.props.match.params.id);
+        this.props.actions.getEventusers(this.props.match.params.id);
+    }
     render() {
+        console.log(this.props.event);
+        let EventName = !isEmpty(this.props.event) ? this.props.event[0].name : "";
         return (
             <div className="animated fadeIn">
                 <Row>
@@ -13,58 +27,23 @@ export default class EventManagerList extends Component {
                         <Card>
                             <CardHeader>
                                 <i className="fa fa-align-justify"></i>
+                                {EventName}
                             </CardHeader>
                             <CardBody>
                                 <Table responsive>
                                     <thead>
                                         <tr>
-                                            <th>Username</th>
-                                            <th>Date registered</th>
-                                            <th>Role</th>
-                                            <th>Status</th>
+                                            <th>Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Samppa Nori</td>
-                                            <td>2012/01/01</td>
-                                            <td>Member</td>
-                                            <td>
-                                                <Badge color="success">Active</Badge>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Estavan Lykos</td>
-                                            <td>2012/02/01</td>
-                                            <td>Staff</td>
-                                            <td>
-                                                <Badge color="danger">Banned</Badge>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Chetan Mohamed</td>
-                                            <td>2012/02/01</td>
-                                            <td>Admin</td>
-                                            <td>
-                                                <Badge color="secondary">Inactive</Badge>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Derick Maximinus</td>
-                                            <td>2012/03/01</td>
-                                            <td>Member</td>
-                                            <td>
-                                                <Badge color="warning">Pending</Badge>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Friderik Dávid</td>
-                                            <td>2012/01/21</td>
-                                            <td>Staff</td>
-                                            <td>
-                                                <Badge color="success">Active</Badge>
-                                            </td>
-                                        </tr>
+                                        {this.props.eventusers.map((data, key) => {
+                                            return (
+                                                <tr>
+                                                    <td>{data.name}</td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </Table>
 
@@ -76,3 +55,23 @@ export default class EventManagerList extends Component {
         );
     }
 }
+
+let mapStateToProps = (state) => {
+    let { isParticipating, isFetching, item } = state.events;
+    let { items } = state.eventusers;
+    return {
+        isParticipating,
+        isFetching,
+        eventusers: items
+    }
+};
+
+export default connect(mapStateToProps,
+    (dispatch) => {
+        return {
+            actions: bindActionCreators({
+                getEvent: events.getEvent,
+                getEventusers: eventusers.getEventusers
+            }, dispatch)
+        }
+    })(EventManagerList);

@@ -5,7 +5,7 @@ import { registration } from './RegistrationReducer';
 import { users } from './UsersReducer';
 import { alert } from './AlertReducer';
 import { popupToggle } from './PopupToggle';
-import { profile, events, appusers, notifications } from "./../resources";
+import { profile, events, appusers, notifications, eventusers } from "./../resources";
 
 const rootReducer = combineReducers({
   authentication,
@@ -16,7 +16,8 @@ const rootReducer = combineReducers({
   profile: profile.profileReducer,
   events: events.eventsReducer,
   appusers: appusers.appusersReducer,
-  notifications: notifications.notificationsReducer
+  notifications: notifications.notificationsReducer,
+  eventusers: eventusers.eventusersReducer
 });
 
 export default rootReducer;

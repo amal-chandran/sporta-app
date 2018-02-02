@@ -10,7 +10,7 @@ import Notifications from "./../views/Notifications";
 import Sporta from "./../views/Sporta";
 import Users from "./../views/Users";
 import Settings from "./../views/Settings";
-// import EventManager from "./../views/EventManager";
+import EventManager from "./../views/EventManager";
 import Scoreboard from "./../views/Scoreboard";
 import Button from "material-ui/Button/Button";
 import { isAuthentic } from "./../helpers/Underscore";
@@ -34,7 +34,7 @@ class Normal extends Component {
                                     <Switch>
                                         <Route exact path={match.url} name="Index" render={() => (<Redirect to={match.url + "/sporta"} />)} />
                                         <Route path={match.url + "/scoreboard"} name="Scoreboard" component={Scoreboard} />
-                                        {/* <Route path={match.url + "/eventmanager/:id"} name="EventManager" component={EventManager} /> */}
+                                        <Route path={match.url + "/eventmanager/:id"} name="EventManager" component={EventManager} />
                                         <Route path={match.url + "/users"} name="Users" component={Users} />
                                         <Route path={match.url + "/settings"} name="Settings" component={Settings} />
                                         <Route path={match.url + "/sporta"} name="Sporta" component={Sporta} />
